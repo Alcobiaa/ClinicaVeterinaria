@@ -52,5 +52,13 @@ namespace ClinicaVeterinaria.Helpers
         {
             return await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
         }
+
+        public async Task<SignInResult> ValidatePasswordAsync(User user, string password)
+        {
+            return await _signInManager.CheckPasswordSignInAsync(
+                user,
+                password,
+                false);
+        }
     }
 }
