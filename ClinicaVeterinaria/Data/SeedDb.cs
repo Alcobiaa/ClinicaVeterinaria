@@ -1,7 +1,6 @@
 ﻿using ClinicaVeterinaria.Data.Entities;
 using ClinicaVeterinaria.Helpers;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
 
@@ -25,22 +24,21 @@ namespace ClinicaVeterinaria.Data
             // Verifica se já existe base de dados, caso nao exista cria
             await _context.Database.EnsureCreatedAsync();
 
-            var user = await _userHelper.GetUserByEmailAsync("lalobia62@gmail.com");
+            var user = await _userHelper.GetUserByEmailAsync("goncalo@yopmail.com");
 
-            if(user == null)
+            if (user == null)
             {
                 user = new User
                 {
                     FirstName = "Goncalo",
                     LastName = "Alcobia",
-                    Email = "lalobia62@gmail.com",
-                    UserName = "lalobia62@gmail.com",
-                    PhoneNumber = "919399412"
+                    Email = "goncalo@yopmail.com",
+                    UserName = "goncalo@yopmail.com",
                 };
 
                 var result = await _userHelper.AddUserAsync(user, "123456");
 
-                if(result != IdentityResult.Success)
+                if (result != IdentityResult.Success)
                 {
                     throw new InvalidOperationException("Could not create the user in seeder");
                 }
