@@ -1,4 +1,5 @@
 ﻿using ClinicaVeterinaria.Data.Entities;
+using ClinicaVeterinaria.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 
@@ -9,5 +10,9 @@ namespace ClinicaVeterinaria.Helpers
         Task<User> GetUserByEmailAsync(string email);
 
         Task<IdentityResult> AddUserAsync(User user, string password);
+
+        Task<SignInResult> LoginAsync(LoginViewModel model);
+
+        Task LogoutAsync();
     }
 }
