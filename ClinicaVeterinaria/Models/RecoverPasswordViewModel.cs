@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace ClinicaVeterinaria.Models
 {
-    public class ForgotPasswordViewModel
+    public class RecoverPasswordViewModel
     {
         [Required]
         [EmailAddress]
         public string Email { get; set; }
-
-        public bool EmailSent { get; set; }
     }
 }

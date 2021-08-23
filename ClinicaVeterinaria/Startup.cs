@@ -34,6 +34,7 @@ namespace ClinicaVeterinaria
         {
             services.AddIdentity<User, IdentityRole>(cfg =>
             {
+                cfg.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
                 cfg.User.RequireUniqueEmail = true;
                 cfg.Password.RequireDigit = false;
                 cfg.Password.RequiredUniqueChars = 0;
@@ -42,6 +43,7 @@ namespace ClinicaVeterinaria
                 cfg.Password.RequireNonAlphanumeric = false;
                 cfg.Password.RequiredLength = 6;
             })
+                .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<DataContext>();
 
             services.AddAuthentication()
@@ -64,7 +66,8 @@ namespace ClinicaVeterinaria
 
             services.AddTransient<SeedDb>();
             services.AddScoped<IUserHelper, UserHelper>();
-            
+            services.AddScoped<IMailHelper, MailHelper>();
+
             services.AddControllersWithViews();
         }
 
