@@ -51,7 +51,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <button type="submit" value="Delete" class="btn btn-danger"><i class="fas fa-user-minus"></i> Delete</button>
+        <a asp-action="Index" class="btn btn-success"><i class="fas fa-backward"></i> Back to List</a>
     </form>
 </div>

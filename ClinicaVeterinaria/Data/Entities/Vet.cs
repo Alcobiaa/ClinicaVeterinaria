@@ -10,9 +10,13 @@ namespace ClinicaVeterinaria.Data.Entities
     {
         public int Id { get; set; }
 
+        [Required]
+        [MaxLength(20)]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
+        [Required]
+        [MaxLength(20)]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
