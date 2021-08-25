@@ -1,4 +1,5 @@
 ﻿using ClinicaVeterinaria.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,11 @@ namespace ClinicaVeterinaria.Data
         public VetRepository(DataContext context) : base(context)
         {
             _context = context;
+        }
+
+        public IQueryable GetAllWithUsers()
+        {
+            return _context.Vets.Include(p => p.User);
         }
     }
 }

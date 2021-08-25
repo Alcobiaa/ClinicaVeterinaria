@@ -8,6 +8,6 @@ namespace ClinicaVeterinaria.Data
 {
     public interface IVetRepository : IGenericRepository<Vet>
     {
-
+        public IQueryable GetAllWithUsers();
     }
 }

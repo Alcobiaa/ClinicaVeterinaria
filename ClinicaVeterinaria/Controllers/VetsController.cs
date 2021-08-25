@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ClinicaVeterinaria.Data;
@@ -66,16 +67,19 @@ namespace ClinicaVeterinaria.Controllers
 
                 if (model.ImageFile != null && model.ImageFile.Length > 0)
                 {
+                    var guid = Guid.NewGuid().ToString();
+                    var file = $"{guid}.jpg";
+                    
                     path = Path.Combine(Directory.GetCurrentDirectory(),
-                        "wwwroot\\images\\vet",
-                        model.ImageFile.Name);
+                        "wwwroot\\images\\vets",
+                        file);
 
                     using (var stream = new FileStream(path, FileMode.Create))
                     {
                         await model.ImageFile.CopyToAsync(stream);
                     }
 
-                    path = $"~/images/vet/{model.ImageFile.FileName}";
+                    path = $"~/images/vets/{file}";
                 }
 
                 var vet = this.ToVet(model, path);
@@ -98,7 +102,8 @@ namespace ClinicaVeterinaria.Controllers
                 LastName = model.LastName,
                 PhoneNumber = model.PhoneNumber,
                 Email = model.Email,
-                Age = model.Age
+                Age = model.Age,
+                User = model.User
             };
         }
 
@@ -132,7 +137,8 @@ namespace ClinicaVeterinaria.Controllers
                 Age = vet.Age,
                 Email = vet.Email,
                 ImageUrl = vet.ImageUrl,
-                PhoneNumber = vet.PhoneNumber
+                PhoneNumber = vet.PhoneNumber,
+                User = vet.User
             };
         }
 
@@ -151,16 +157,19 @@ namespace ClinicaVeterinaria.Controllers
 
                     if(model.ImageFile != null && model.ImageFile.Length > 0)
                     {
+                        var guid = Guid.NewGuid().ToString();
+                        var file = $"{guid}.jpg";
+
                         path = Path.Combine(Directory.GetCurrentDirectory(),
-                            "wwwroot\\images\\vet",
-                            model.ImageFile.Name);
+                            "wwwroot\\images\\vets",
+                            file);
 
                         using (var stream = new FileStream(path, FileMode.Create))
                         {
                             await model.ImageFile.CopyToAsync(stream);
                         }
 
-                        path = $"~/images/vet/{model.ImageFile.FileName}";
+                        path = $"~/images/vets/{file}";
                     }
 
                     var vet = this.ToVet(model, path);
