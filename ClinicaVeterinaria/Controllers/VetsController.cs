@@ -35,14 +35,14 @@ namespace ClinicaVeterinaria.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("VetNotFound");
             }
 
             var vet = await _vetRepository.GetByIdAsync(id.Value);
 
             if (vet == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("VetNotFound");
             }
 
             return View(vet);
@@ -112,14 +112,14 @@ namespace ClinicaVeterinaria.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("VetNotFound");
             }
 
             var vet = await _vetRepository.GetByIdAsync(id.Value);
 
             if (vet == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("VetNotFound");
             }
 
             var model = this.ToVetViewModel(vet);
@@ -199,14 +199,14 @@ namespace ClinicaVeterinaria.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("VetNotFound");
             }
 
             var vet = await _vetRepository.GetByIdAsync(id.Value);
 
             if (vet == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("VetNotFound");
             }
 
             return View(vet);
@@ -220,6 +220,11 @@ namespace ClinicaVeterinaria.Controllers
             var vet = await _vetRepository.GetByIdAsync(id);
             await _vetRepository.DeleteAsync(vet);
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult VetNotFound()
+        {
+            return View();
         }
 
     }
