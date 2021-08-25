@@ -1,7 +1,9 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using ClinicaVeterinaria.Data;
 using ClinicaVeterinaria.Data.Entities;
+using ClinicaVeterinaria.Helpers;
 using ClinicaVeterinaria.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,16 +14,19 @@ namespace ClinicaVeterinaria.Controllers
     public class VetsController : Controller
     {
         private readonly IVetRepository _vetRepository;
+        private readonly IUserHelper _userHelper;
 
-        public VetsController(IVetRepository vetRepository)
+        public VetsController(IVetRepository vetRepository,
+            IUserHelper userHelper)
         {
             _vetRepository = vetRepository;
+            _userHelper = userHelper;
         }
 
         // GET: Vets
         public IActionResult Index()
         {
-            return View(_vetRepository.GetAll());
+            return View(_vetRepository.GetAll().OrderBy(p => p.FirstName));
         }
 
         // GET: Vets/Details/5
@@ -75,6 +80,8 @@ namespace ClinicaVeterinaria.Controllers
 
                 var vet = this.ToVet(model, path);
 
+                //TODO: Modificar para o user que tiver logado
+                vet.User = await _userHelper.GetUserByEmailAsync("lalobia62@gmail.com");
                 await _vetRepository.CreateAsync(vet);
                 return RedirectToAction(nameof(Index));
             }
@@ -159,6 +166,7 @@ namespace ClinicaVeterinaria.Controllers
                     var vet = this.ToVet(model, path);
 
                     //TODO: Modificar para o user que estiver logado
+                    vet.User = await _userHelper.GetUserByEmailAsync("lalobia62@gmail.com");
                     await _vetRepository.UpdateAsync(vet);
                 }
                 catch (DbUpdateConcurrencyException)
