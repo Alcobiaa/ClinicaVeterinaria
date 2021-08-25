@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClinicaVeterinaria.Data.Entities
 {
-    public class Vet
+    public class Vet : IEntity
     {
         public int Id { get; set; }
 

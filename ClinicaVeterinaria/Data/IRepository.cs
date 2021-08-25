@@ -7,18 +7,18 @@ namespace ClinicaVeterinaria.Data
 {
     public interface IRepository
     {
-        void AddVet(Vet vet);
+        //void AddVet(Vet vet);
 
-        Vet GetVet(int id);
+        //Vet GetVet(int id);
 
-        IEnumerable<Vet> GetVets();
+        //IEnumerable<Vet> GetVets();
 
-        void RemoveVet(Vet vet);
+        //void RemoveVet(Vet vet);
 
-        Task<bool> SaveAllAsync();
+        //Task<bool> SaveAllAsync();
 
-        void UpdateVet(Vet vet);
+        //void UpdateVet(Vet vet);
 
-        bool VetExists(int id);
+        //bool VetExists(int id);
     }
 }
