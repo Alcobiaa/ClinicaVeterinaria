@@ -16,12 +16,18 @@ namespace ClinicaVeterinaria.Controllers
     {
         private readonly IVetRepository _vetRepository;
         private readonly IUserHelper _userHelper;
+        private readonly IImageHelper _imageHelper;
+        private readonly IConverterHelper _converterHelper;
 
         public VetsController(IVetRepository vetRepository,
-            IUserHelper userHelper)
+            IUserHelper userHelper,
+            IImageHelper imageHelper,
+            IConverterHelper converterHelper)
         {
             _vetRepository = vetRepository;
             _userHelper = userHelper;
+            _imageHelper = imageHelper;
+            _converterHelper = converterHelper;
         }
 
         // GET: Vets
@@ -67,22 +73,10 @@ namespace ClinicaVeterinaria.Controllers
 
                 if (model.ImageFile != null && model.ImageFile.Length > 0)
                 {
-                    var guid = Guid.NewGuid().ToString();
-                    var file = $"{guid}.jpg";
-                    
-                    path = Path.Combine(Directory.GetCurrentDirectory(),
-                        "wwwroot\\images\\vets",
-                        file);
-
-                    using (var stream = new FileStream(path, FileMode.Create))
-                    {
-                        await model.ImageFile.CopyToAsync(stream);
-                    }
-
-                    path = $"~/images/vets/{file}";
+                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "vets");
                 }
 
-                var vet = this.ToVet(model, path);
+                var vet = _converterHelper.ToVet(model, path, true);
 
                 //TODO: Modificar para o user que tiver logado
                 vet.User = await _userHelper.GetUserByEmailAsync("lalobia62@gmail.com");
@@ -90,21 +84,6 @@ namespace ClinicaVeterinaria.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
-        }
-
-        private Vet ToVet(VetViewModel model, string path)
-        {
-            return new Vet
-            {
-                Id = model.Id,
-                ImageUrl = path,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                PhoneNumber = model.PhoneNumber,
-                Email = model.Email,
-                Age = model.Age,
-                User = model.User
-            };
         }
 
         // GET: Vets/Edit/5
@@ -122,24 +101,9 @@ namespace ClinicaVeterinaria.Controllers
                 return new NotFoundViewResult("VetNotFound");
             }
 
-            var model = this.ToVetViewModel(vet);
+            var model = _converterHelper.ToVetViewModel(vet);
 
             return View(model);
-        }
-
-        private VetViewModel ToVetViewModel(Vet vet)
-        {
-            return new VetViewModel
-            {
-                Id = vet.Id,
-                FirstName = vet.FirstName,
-                LastName = vet.LastName,
-                Age = vet.Age,
-                Email = vet.Email,
-                ImageUrl = vet.ImageUrl,
-                PhoneNumber = vet.PhoneNumber,
-                User = vet.User
-            };
         }
 
         // POST: Vets/Edit/5
@@ -157,22 +121,10 @@ namespace ClinicaVeterinaria.Controllers
 
                     if(model.ImageFile != null && model.ImageFile.Length > 0)
                     {
-                        var guid = Guid.NewGuid().ToString();
-                        var file = $"{guid}.jpg";
-
-                        path = Path.Combine(Directory.GetCurrentDirectory(),
-                            "wwwroot\\images\\vets",
-                            file);
-
-                        using (var stream = new FileStream(path, FileMode.Create))
-                        {
-                            await model.ImageFile.CopyToAsync(stream);
-                        }
-
-                        path = $"~/images/vets/{file}";
+                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "vets");
                     }
 
-                    var vet = this.ToVet(model, path);
+                    var vet = _converterHelper.ToVet(model, path, false);
 
                     //TODO: Modificar para o user que estiver logado
                     vet.User = await _userHelper.GetUserByEmailAsync("lalobia62@gmail.com");

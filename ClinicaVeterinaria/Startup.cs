@@ -62,6 +62,8 @@ namespace ClinicaVeterinaria
             services.AddScoped<IVetRepository, VetRepository>();
             services.AddScoped<IUserHelper, UserHelper>();
             services.AddScoped<IMailHelper, MailHelper>();
+            services.AddScoped<IImageHelper, ImageHelper>();
+            services.AddScoped<IConverterHelper, ConverterHelper>();
 
             services.ConfigureApplicationCookie(options =>
             {
