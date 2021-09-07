@@ -1,11 +1,11 @@
-﻿@model ClinicaVeterinaria.Data.Entities.Vet
+﻿@model ClinicaVeterinaria.Data.Entities.Animal
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Vet Details</h1>
-<br />
+<h1>Animals Details</h1>
+<br/>
 
 <div>
     <hr />
@@ -13,16 +13,10 @@
         <div class="col-md-8">
             <dl class="row">
                 <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.FirstName)
+                    @Html.DisplayNameFor(model => model.Name)
                 </dt>
                 <dd class="col-sm-9">
-                    @Html.DisplayFor(model => model.FirstName)
-                </dd>
-                <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.LastName)
-                </dt>
-                <dd class="col-sm-9">
-                    @Html.DisplayFor(model => model.LastName)
+                    @Html.DisplayFor(model => model.Name)
                 </dd>
                 <dt class="col-sm-3">
                     @Html.DisplayNameFor(model => model.Age)
@@ -31,16 +25,28 @@
                     @Html.DisplayFor(model => model.Age)
                 </dd>
                 <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                    @Html.DisplayNameFor(model => model.Species)
                 </dt>
                 <dd class="col-sm-9">
-                    @Html.DisplayFor(model => model.PhoneNumber)
+                    @Html.DisplayFor(model => model.Species)
                 </dd>
                 <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.Email)
+                    @Html.DisplayNameFor(model => model.Weight)
                 </dt>
                 <dd class="col-sm-9">
-                    @Html.DisplayFor(model => model.Email)
+                    @Html.DisplayFor(model => model.Weight)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Breeds)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Breeds)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Owner)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Owner)
                 </dd>
             </dl>
         </div>

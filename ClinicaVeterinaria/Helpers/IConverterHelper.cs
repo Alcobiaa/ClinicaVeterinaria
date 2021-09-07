@@ -8,5 +8,9 @@ namespace ClinicaVeterinaria.Helpers
         Vet ToVet(VetViewModel model, string path, bool isNew);
 
         VetViewModel ToVetViewModel(Vet vet);
+
+        Animal ToAnimal(AnimalViewModel model, string path, bool isNew);
+
+        AnimalViewModel ToAnimalViewModel(Animal animal);
     }
 }

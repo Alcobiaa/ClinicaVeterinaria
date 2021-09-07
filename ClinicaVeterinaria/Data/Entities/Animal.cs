@@ -6,31 +6,31 @@ using System.Threading.Tasks;
 
 namespace ClinicaVeterinaria.Data.Entities
 {
-    public class Vet : IEntity
+    public class Animal : IEntity
     {
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(20)]
-        [Display(Name = "First Name")]
-        public string FirstName { get; set; }
+        public string Name { get; set; }
 
         [Required]
-        [MaxLength(20)]
-        [Display(Name = "Last Name")]
-        public string LastName { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime Age { get; set; }
+
+        [Required]
+        public string Species { get; set; }
+
+        [Required]
+        public int Weight { get; set; }
+
+        [Required]
+        public string Breeds { get; set; }
 
         [Display(Name = "Image")]
         public string ImageUrl { get; set; }
 
-        public DateTime Age { get; set; }
-
-        [Display(Name = "Phone Number")]
-        [Phone]
-        public string PhoneNumber { get; set; }
-
-        [EmailAddress]
-        public string Email { get; set; }
+        public string Owner { get; set; }
 
         public User User { get; set; }
 

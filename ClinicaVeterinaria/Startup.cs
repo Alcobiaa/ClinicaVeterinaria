@@ -60,6 +60,7 @@ namespace ClinicaVeterinaria
             services.AddTransient<SeedDb>();
 
             services.AddScoped<IVetRepository, VetRepository>();
+            services.AddScoped<IAnimalRepository, AnimalRepository>();
             services.AddScoped<IUserHelper, UserHelper>();
             services.AddScoped<IMailHelper, MailHelper>();
             services.AddScoped<IImageHelper, ImageHelper>();

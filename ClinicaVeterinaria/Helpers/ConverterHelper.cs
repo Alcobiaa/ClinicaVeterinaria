@@ -34,5 +34,37 @@ namespace ClinicaVeterinaria.Helpers
                 User = vet.User
             };
         }
+
+        public Animal ToAnimal(AnimalViewModel model, string path, bool isNew)
+        {
+            return new Animal
+            {
+                Id = isNew ? 0 : model.Id,
+                ImageUrl = path,
+                Name = model.Name,
+                Age = model.Age,
+                Weight = model.Weight,
+                Breeds = model.Breeds,
+                Species = model.Species,
+                User = model.User,
+                Owner = model.Owner
+            };
+        }
+
+        public AnimalViewModel ToAnimalViewModel(Animal animal)
+        {
+            return new AnimalViewModel
+            {
+               Id = animal.Id,
+               ImageUrl = animal.ImageUrl,
+               Name = animal.Name,
+               Age = animal.Age,
+               Weight = animal.Weight,
+               Breeds = animal.Breeds,
+               Species = animal.Species,
+               User = animal.User,
+               Owner = animal.Owner
+            };
+        }
     }
 }

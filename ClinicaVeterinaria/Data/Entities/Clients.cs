@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClinicaVeterinaria.Data.Entities
 {
-    public class Vet : IEntity
+    public class Clients : IEntity
     {
         public int Id { get; set; }
 
@@ -23,28 +23,6 @@ namespace ClinicaVeterinaria.Data.Entities
         [Display(Name = "Image")]
         public string ImageUrl { get; set; }
 
-        public DateTime Age { get; set; }
-
-        [Display(Name = "Phone Number")]
-        [Phone]
         public string PhoneNumber { get; set; }
-
-        [EmailAddress]
-        public string Email { get; set; }
-
-        public User User { get; set; }
-
-        public string ImageFullPath
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(ImageUrl))
-                {
-                    return null;
-                }
-
-                return $"https://localhost:44321{ImageUrl.Substring(1)}";
-            }
-        }
     }
 }

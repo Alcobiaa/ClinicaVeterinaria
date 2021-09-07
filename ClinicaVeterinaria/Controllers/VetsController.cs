@@ -1,13 +1,10 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using ClinicaVeterinaria.Data;
-using ClinicaVeterinaria.Data.Entities;
+﻿using ClinicaVeterinaria.Data;
 using ClinicaVeterinaria.Helpers;
 using ClinicaVeterinaria.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 
 
 namespace ClinicaVeterinaria.Controllers
@@ -119,7 +116,7 @@ namespace ClinicaVeterinaria.Controllers
                 {
                     var path = model.ImageUrl;
 
-                    if(model.ImageFile != null && model.ImageFile.Length > 0)
+                    if (model.ImageFile != null && model.ImageFile.Length > 0)
                     {
                         path = await _imageHelper.UploadImageAsync(model.ImageFile, "vets");
                     }
@@ -134,7 +131,7 @@ namespace ClinicaVeterinaria.Controllers
                 {
                     if (!await _vetRepository.ExistAsync(model.Id))
                     {
-                        return NotFound();
+                        return new NotFoundViewResult("VetNotFound");
                     }
                     else
                     {
