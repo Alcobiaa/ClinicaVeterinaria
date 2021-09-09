@@ -18,6 +18,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
                     <!--Lado Esquerdo-->
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
@@ -30,9 +31,13 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Animals" asp-action="Index">Animals</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Clients" asp-action="Index">Clients</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Communications</a>
                         </li>
                     </ul>
+
                     <!--Lado Direito-->
                     <ul class="nav navbar-nav navbar-right">
                         @if (this.User.Identity.IsAuthenticated)

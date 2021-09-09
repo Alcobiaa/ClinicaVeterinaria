@@ -12,5 +12,9 @@ namespace ClinicaVeterinaria.Helpers
         Animal ToAnimal(AnimalViewModel model, string path, bool isNew);
 
         AnimalViewModel ToAnimalViewModel(Animal animal);
+
+        Client ToClient(ClientViewModel model, string path, bool isNew);
+
+        ClientViewModel ToClientViewModel(Client client);
     }
 }

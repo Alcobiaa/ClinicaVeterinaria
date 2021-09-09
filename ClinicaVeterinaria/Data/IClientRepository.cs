@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace ClinicaVeterinaria.Data
 {
-    public interface IAnimalRepository : IGenericRepository<Animal>
+    public interface IClientRepository : IGenericRepository<Client>
     {
         public IQueryable GetAllWithUsers();
     }

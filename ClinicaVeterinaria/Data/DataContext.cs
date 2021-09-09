@@ -9,6 +9,8 @@ namespace ClinicaVeterinaria.Data
         public DbSet<Vet> Vets { get; set; }
 
         public DbSet<Animal> Animals { get; set; }
+
+        public DbSet<Client> Clients { get; set; }
         
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {

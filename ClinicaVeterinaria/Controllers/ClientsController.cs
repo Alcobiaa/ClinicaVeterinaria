@@ -8,110 +8,106 @@ using System.Threading.Tasks;
 
 namespace ClinicaVeterinaria.Controllers
 {
-    public class AnimalsController : Controller
+    public class ClientsController : Controller
     {
+        private readonly IClientRepository _clientRepository;
         private readonly IUserHelper _userHelper;
-        private readonly IAnimalRepository _animalRepository;
         private readonly IConverterHelper _converterHelper;
         private readonly IImageHelper _imageHelper;
 
-        public AnimalsController(IAnimalRepository animalRepository,
+        public ClientsController(IClientRepository clientRepository,
             IUserHelper userHelper,
             IConverterHelper converterHelper,
             IImageHelper imageHelper)
         {
+            _clientRepository = clientRepository;
             _userHelper = userHelper;
-            _animalRepository = animalRepository;
             _converterHelper = converterHelper;
             _imageHelper = imageHelper;
         }
 
-        // GET: Animals
+        // GET: Clients
         public IActionResult Index()
         {
-            return View(_animalRepository.GetAll().OrderBy(a => a.Name));
+            return View(_clientRepository.GetAll().OrderBy(c => c.FirstName));
         }
 
-        // GET: Animals/Details/5
+        // GET: Clients/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
-                //TODO: Fazer a view do Not found
-                return new NotFoundViewResult("AnimalNotFound");
+                return new NotFoundViewResult("ClientNotFound");
             }
 
-            var animal = await _animalRepository.GetByIdAsync(id.Value);
+            var client = await _clientRepository.GetByIdAsync(id.Value);
 
-            if (animal == null)
+            if (client == null)
             {
-                //TODO: Fazer a view do Not found
-                return new NotFoundViewResult("AnimalNotFound");
+                return new NotFoundViewResult("ClientNotFound");
             }
 
-            return View(animal);
+            return View(client);
         }
 
-        // GET: Animals/Create
+        // GET: Clients/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Animals/Create
+        // POST: Clients/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AnimalViewModel model)
+        public async Task<IActionResult> Create(ClientViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var path = string.Empty;
 
-                if (model.ImageFile != null && model.ImageFile.Length > 0)
+                if(model.ImageFile != null && model.ImageFile.Length > 0)
                 {
-                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "animals");
+                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "clients");
                 }
 
-                var animal = _converterHelper.ToAnimal(model, path, true);
+                var client = _converterHelper.ToClient(model, path, true);
 
                 //TODO: Modificar para o user que tiver logado
-                animal.User = await _userHelper.GetUserByEmailAsync("lalobia62@gmail.com");
-                await _animalRepository.CreateAsync(animal);
+                client.User = await _userHelper.GetUserByEmailAsync("lalobia62@gmail.com");
+                await _clientRepository.CreateAsync(client);
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
         }
 
-        // GET: Animals/Edit/5
+        // GET: Clients/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
-                //TODO: Fazer a view do Not found
-                return new NotFoundViewResult("AnimalNotFound");
+                return new NotFoundViewResult("ClientNotFound");
             }
 
-            var animal = await _animalRepository.GetByIdAsync(id.Value);
+            var client = await _clientRepository.GetByIdAsync(id.Value);
 
-            if (animal == null)
+            if (client == null)
             {
-                //TODO: Fazer a view do Not found
-                return new NotFoundViewResult("AnimalNotFound");
+                return new NotFoundViewResult("ClientNotFound");
             }
 
-            var model = _converterHelper.ToAnimalViewModel(animal);
+            var model = _converterHelper.ToClientViewModel(client);
 
             return View(model);
         }
 
-        // POST: Animals/Edit/5
+        // POST: Clients/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(AnimalViewModel model)
+        public async Task<IActionResult> Edit(ClientViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -121,21 +117,20 @@ namespace ClinicaVeterinaria.Controllers
 
                     if (model.ImageFile != null && model.ImageFile.Length > 0)
                     {
-                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "animals");
+                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "clients");
                     }
 
-                    var animal = _converterHelper.ToAnimal(model, path, false);
+                    var client = _converterHelper.ToClient(model, path, false);
 
                     //TODO: Modificar para o user que estiver logado
-                    animal.User = await _userHelper.GetUserByEmailAsync("lalobia62@gmail.com");
-                    await _animalRepository.UpdateAsync(animal);
+                    client.User = await _userHelper.GetUserByEmailAsync("lalobia62@gmail.com");
+                    await _clientRepository.UpdateAsync(client);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await _animalRepository.ExistAsync(model.Id))
+                    if (!await _clientRepository.ExistAsync(model.Id))
                     {
-                        //TODO: Fazer a view do Not found
-                        return new NotFoundViewResult("AnimalNotFound");
+                        return new NotFoundViewResult("ClientNotFound");
                     }
                     else
                     {
@@ -147,37 +142,35 @@ namespace ClinicaVeterinaria.Controllers
             return View(model);
         }
 
-        // GET: Animals/Delete/5
+        // GET: Clients/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
-                //TODO: Fazer a view do Not found
-                return new NotFoundViewResult("AnimalNotFound");
+                return new NotFoundViewResult("ClientNotFound");
             }
 
-            var animal = await _animalRepository.GetByIdAsync(id.Value);
+            var client = await _clientRepository.GetByIdAsync(id.Value);
 
-            if (animal == null)
+            if (client == null)
             {
-                //TODO: Fazer a view do Not found
-                return new NotFoundViewResult("AnimalNotFound");
+                return new NotFoundViewResult("ClientNotFound");
             }
 
-            return View(animal);
+            return View(client);
         }
 
-        // POST: Animals/Delete/5
+        // POST: Clients/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var animal = await _animalRepository.GetByIdAsync(id);
-            await _animalRepository.DeleteAsync(animal);
+            var client = await _clientRepository.GetByIdAsync(id);
+            await _clientRepository.DeleteAsync(client);
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult AnimalNotFound()
+        public IActionResult ClientNotFound()
         {
             return View();
         }
