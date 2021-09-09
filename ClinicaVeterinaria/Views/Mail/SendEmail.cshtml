@@ -1,0 +1,46 @@
+﻿@model ClinicaVeterinaria.Models.MailViewModel
+@{
+    ViewData["Title"] = "SendEmail";
+}
+
+<h2><i class="far fa-envelope-open"></i> Send Email</h2>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly"></div>
+
+            <div class="form-group">
+                <label asp-for="Email">Email</label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-warning"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Subject">Subject</label>
+                <input asp-for="Subject" class="form-control" />
+                <span asp-validation-for="Subject" class="text-warning"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Message">Message</label>
+                @*<input asp-for="Message" class="form-control" />*@
+                <textarea asp-for="Message" class="form-control" cols="40" rows="5"></textarea>
+                <span asp-validation-for="Message" class="text-warning"></span>
+            </div>
+
+            <br />
+            <div class="form-group">
+                <button type="submit" value="Recover password" class="btn btn-primary"><i class="fas fa-unlock-alt"></i> Send</button>
+            </div>
+        </form>
+        <br />
+        <div class="text-success">
+            <p>
+                @ViewBag.Message
+            </p>
+        </div>
+    </div>
+</div>
