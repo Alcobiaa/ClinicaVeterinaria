@@ -1,11 +1,6 @@
 ﻿using ClinicaVeterinaria.Helpers;
 using ClinicaVeterinaria.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace ClinicaVeterinaria.Controllers
@@ -39,7 +34,7 @@ namespace ClinicaVeterinaria.Controllers
             {
                 var user = await _userHelper.GetUserByEmailAsync(model.Email);
 
-                if(user == null)
+                if (user == null)
                 {
                     ModelState.AddModelError(string.Empty, "The email doesn´t correspont to registered user.");
                     return View(model);

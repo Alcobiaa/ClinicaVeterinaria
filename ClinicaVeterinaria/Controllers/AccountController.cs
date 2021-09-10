@@ -19,14 +19,17 @@ namespace ClinicaVeterinaria.Controllers
         private readonly IUserHelper _userHelper;
         private readonly IConfiguration _configuration;
         private readonly IMailHelper _mailHelper;
+        private readonly IImageHelper _imageHelper;
 
         public AccountController(IUserHelper userHelper,
             IConfiguration configuration,
-            IMailHelper mailHelper)
+            IMailHelper mailHelper,
+            IImageHelper imageHelper)
         {
             _userHelper = userHelper;
             _configuration = configuration;
             _mailHelper = mailHelper;
+            _imageHelper = imageHelper;
         }
 
         public IActionResult Login()
@@ -79,6 +82,13 @@ namespace ClinicaVeterinaria.Controllers
         {
             if (ModelState.IsValid)
             {
+                var path = string.Empty;
+
+                if(model.ImageFile != null && model.ImageFile.Length > 0)
+                {
+                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "users");
+                }
+                
                 var user = await _userHelper.GetUserByEmailAsync(model.Username);
 
                 if (user == null)

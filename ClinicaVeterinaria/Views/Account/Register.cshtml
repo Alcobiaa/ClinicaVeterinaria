@@ -9,7 +9,7 @@
 
 <div class="row">
     <div class="col-md-4 offset-md-4">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly"></div>
 
             <div class="form-group">
@@ -19,9 +19,15 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="LastName">Last Name</label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-warning"></span>
+                <label asp-for="ImageFile">Last Name</label>
+                <input asp-for="ImageFile" class="form-control" />
+                <span asp-validation-for="ImageFile" class="text-warning"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FirstName">First Name</label>
+                <input asp-for="FirstName" class="form-control" type="file" />
+                <span asp-validation-for="FirstName" class="text-warning"></span>
             </div>
 
             <div class="form-group">
