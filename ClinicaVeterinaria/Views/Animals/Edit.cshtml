@@ -4,63 +4,69 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2><i class="fas fa-edit"></i> Edit Animal</h2>
-<hr />
+<div class="col-sm-9 col-xs-12 pull-left">
+    <h2><i class="fas fa-edit"></i> Edit</h2>
+    <hr />
+    <br />
 
-<br />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="ImageUrl" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageFile" class="control-label"></label>
-                <input asp-for="ImageFile" class="form-control" type="file" />
-                <span asp-validation-for="ImageFile" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Age" class="control-label"></label>
-                <input asp-for="Age" class="form-control" />
-                <span asp-validation-for="Age" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Species" class="control-label"></label>
-                <input asp-for="Species" class="form-control" />
-                <span asp-validation-for="Species" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Weight" class="control-label"></label>
-                <input asp-for="Weight" class="form-control" />
-                <span asp-validation-for="Weight" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Breeds" class="control-label"></label>
-                <input asp-for="Breeds" class="form-control" />
-                <span asp-validation-for="Breeds" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Owner" class="control-label"></label>
-                <input asp-for="Owner" class="form-control" />
-                <span asp-validation-for="Owner" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <button type="submit" value="Save" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
-                <a asp-action="Index" class="btn btn-success"><i class="fas fa-backward"></i> Back to List</a>
-            </div>
-        </form>
-    </div>
-    <div class="col-md-4">
-        @if (!string.IsNullOrEmpty(Model.ImageUrl))
-         {
-            <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:300px;height:450px;max-width:100%;height:auto;" />
-         }
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="ImageUrl" />
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ImageFile" class="control-label"></label>
+                    <input asp-for="ImageFile" class="form-control" type="file" />
+                    <span asp-validation-for="ImageFile" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Age" class="control-label"></label>
+                    <input asp-for="Age" class="form-control" />
+                    <span asp-validation-for="Age" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Species" class="control-label"></label>
+                    <input asp-for="Species" class="form-control" />
+                    <span asp-validation-for="Species" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Weight" class="control-label"></label>
+                    <input asp-for="Weight" class="form-control" />
+                    <span asp-validation-for="Weight" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Breeds" class="control-label"></label>
+                    <input asp-for="Breeds" class="form-control" />
+                    <span asp-validation-for="Breeds" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Owner" class="control-label"></label>
+                    <input asp-for="Owner" class="form-control" />
+                    <span asp-validation-for="Owner" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <button type="submit" value="Save" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+                    <a asp-action="Index" class="btn btn-success"><i class="fas fa-backward"></i> Back to List</a>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-4">
+            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+            {
+                <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:300px;height:450px;max-width:100%;height:auto;" />
+            }
+        </div>
     </div>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
 
 

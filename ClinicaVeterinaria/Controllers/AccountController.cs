@@ -82,13 +82,6 @@ namespace ClinicaVeterinaria.Controllers
         {
             if (ModelState.IsValid)
             {
-                var path = string.Empty;
-
-                if(model.ImageFile != null && model.ImageFile.Length > 0)
-                {
-                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "users");
-                }
-                
                 var user = await _userHelper.GetUserByEmailAsync(model.Username);
 
                 if (user == null)
@@ -109,21 +102,25 @@ namespace ClinicaVeterinaria.Controllers
                         return View(model);
                     }
 
-                    var loginViewModel = new LoginViewModel
-                    {
-                        Password = model.Password,
-                        RememberMe = false,
-                        Username = model.Username
-                    };
+                    string myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
 
-                    var result2 = await _userHelper.LoginAsync(loginViewModel);
-
-                    if (result2.Succeeded)
+                    var tokenLink = Url.Action("ConfirmationEmail", "Account", new
                     {
-                        return RedirectToAction("Index", "Home");
+                        userid = user.Id,
+                        token = myToken
+                    }, protocol: HttpContext.Request.Scheme);
+
+                    Response response = _mailHelper.SendEmail(model.Username, "Email confirmation", $"<h1>Email Confirmation</h1>" +
+                       $"To allow the user, " +
+                       $"plase click in this link to change your Password:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
+
+                    if (response.IsSuccess)
+                    {
+                        ViewBag.Message = "The instructions to allow you user has been sent to email";
+                        return View(model);
                     }
 
-                    ModelState.AddModelError(string.Empty, "The user couldn´t be logged");
+                    ModelState.AddModelError(string.Empty, "The user couldn't be logged");
                 }
             }
 
@@ -155,8 +152,18 @@ namespace ClinicaVeterinaria.Controllers
 
                 if (user != null)
                 {
+                    var path = model.ImageUrl;
+
+                    if (model.ImageFile != null && model.ImageFile.Length > 0)
+                    {
+                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "users");
+                    }
+
+                    model.ImageUrl = path;
+
                     user.FirstName = model.FirstName;
                     user.LastName = model.LastName;
+                    user.ImageUrl = model.ImageUrl;
 
                     var response = await _userHelper.UpdateUserAsync(user);
 
@@ -302,6 +309,7 @@ namespace ClinicaVeterinaria.Controllers
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
             var user = await _userHelper.GetUserByEmailAsync(model.Username);
+
             if (user != null)
             {
                 var result = await _userHelper.ResetPasswordAsync(user, model.Token, model.Password);
@@ -316,6 +324,62 @@ namespace ClinicaVeterinaria.Controllers
             }
 
             this.ViewBag.Message = "User not found.";
+            return View(model);
+        }
+
+
+        public async Task<IActionResult> ConfirmationEmail(string userId, string token)
+        {
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
+            {
+                return NotFound();
+            }
+
+            var user = await _userHelper.GetUserByIdAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var result = await _userHelper.ConfirmEmailAsync(user, token);
+
+            if (!result.Succeeded)
+            {
+
+            }
+
+            //return RedirectToAction("Account", "FirstChangePassword");
+            return View(nameof(FirstChangePassword));
+        }
+
+
+        public IActionResult FirstChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> FirstChangePassword(ResetPasswordViewModel model)
+        {
+            var user = await _userHelper.GetUserByEmailAsync(model.Username);
+
+            var Token = await _userHelper.GeneratePasswordResetTokenAsync(user);
+
+            if (user != null)
+            {
+                var result = await _userHelper.ResetPasswordAsync(user, Token, model.Password);
+                if (result.Succeeded)
+                {
+                    ViewBag.Message = "Password reset successful.";
+                    return View();
+                }
+
+                ViewBag.Message = "Error while resetting the password.";
+                return View(model);
+            }
+
+            ViewBag.Message = "User not found.";
             return View(model);
         }
 

@@ -95,18 +95,5 @@ namespace ClinicaVeterinaria.Helpers
             };
         }
 
-        public User ToUser(UserViewModel model, string path, bool isNew)
-        {
-            return new User
-            {
-                Id = isNew ? 0 : model.Id,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                ImageUrl = model.ImageUrl,
-                UserName = model.UserName,
-                Email = model.Email,
-            };
-        }
-
     }
 }

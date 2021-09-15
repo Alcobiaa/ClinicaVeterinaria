@@ -10,7 +10,7 @@ namespace ClinicaVeterinaria.Helpers
         {
             // Processo que faz com que a mensagem seja enviada para o numero selecionado
             string accountSid = "AC8fba6feefb41ec8d969e69d11b1d3bb8";
-            string authToken = "22c407ebe8adfb185d599a4f06b354d0";
+            string authToken = "720d24f8b21b6ba1dcd05ade477df65c";
             //string accountSid = Environment.GetEnvironmentVariable("AC8fba6feefb41ec8d969e69d11b1d3bb8");
             //string authToken = Environment.GetEnvironmentVariable("22c407ebe8adfb185d599a4f06b354d0");
 

@@ -1,8 +1,175 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿
+@{
+    Layout = null;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Animal Care</title>
+    <link rel="icon" href="~/img/favicon.png">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <!-- animate CSS -->
+    <link rel="stylesheet" href="~/css/animate.css">
+    <!-- owl carousel CSS -->
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+    <!-- themify CSS -->
+    <link rel="stylesheet" href="~/css/themify-icons.css">
+    <!-- flaticon CSS -->
+    <link rel="stylesheet" href="~/css/flaticon.css">
+    <!-- magnific popup CSS -->
+    <link rel="stylesheet" href="~/css/magnific-popup.css">
+    <!-- nice select CSS -->
+    <link rel="stylesheet" href="~/css/nice-select.css">
+    <!-- swiper CSS -->
+    <link rel="stylesheet" href="~/css/slick.css">
+    <!-- style CSS -->
+    <link rel="stylesheet" href="~/css/style.css">
+    <!-- Font Awsome -->
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css">
+</head>
+
+<body>
+    <!--::header part start::-->
+    <header class="main_menu home_menu">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12">
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"> <img src="img/logo.png" alt="logo"> </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+
+                        <div class="collapse navbar-collapse main-menu-item justify-content-center"
+                             id="navbarSupportedContent">
+                            <ul class="navbar-nav align-items-center">
+                                <li class="nav-item active">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Vets" asp-action="Index">Vets</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Animals" asp-action="Index">Animals</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Clients" asp-action="Index">Clients</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Communications</a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="Mail" asp-action="SendEmail">E-mail</a></li>
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="SMS" asp-action="SendSMS">Mobile Phone</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                            <!--Lado Direito-->
+                            <ul class="nav navbar-nav navbar-right">
+                                @if (this.User.Identity.IsAuthenticated)
+                                 {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="ChangeUser">@this.User.Identity.Name</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                                    </li>
+                                 }
+                                else
+                                {
+                                    <li class="nav-item">
+                                        <a class="btn_2 d-none d-lg-block" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                                    </li>
+                                }
+                            </ul>
+
+                        </div>
+                        @*<a class="btn_2 d-none d-lg-block" href="#">HOT LINE- 09856</a>*@
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Header part end-->
+
+    <!-- banner part start-->
+    <section class="banner_part">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-5 col-xl-5">
+                    <div class="banner_text">
+                        <div class="banner_text_iner">
+                            <h5>We are here for your care</h5>
+                            <h1>
+                                Why Animal Care?
+                            </h1>
+                            <p>
+                                At Animal Care, your pet's health is our top priority and 
+                                excellent service is our goal. We strive to provide 
+                                the very best in medical care, and our hospitals provide 
+                                a full range of general, surgical and specialized care. 
+                                This is how our Veterinarians would treat their own pets. 
+                                And we offer nothing less than that to you.
+                            </p>
+                            <a class="btn_2" asp-area="" asp-controller="Vets" asp-action="Index">Vets</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="banner_img">
+                        <img src="img/banner_img.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- banner part start-->
+
+
+    <!-- Footer part start-->
+    <footer class="footer-area">
+        <div class="copyright_part">
+            <div class="container">
+                <div class="row align-items-center">
+                    <p class="footer-text m-0 col-lg-8 col-md-12">
+                        Copyright &copy;
+                        <script>document.write(new Date().getFullYear());</script> All rights reserved | Animal Care</a>
+
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer part end-->
+
+
+    <!-- jquery plugins here-->
+
+    <script src="js/jquery-1.12.1.min.js"></script>
+    <!-- popper js -->
+    <script src="js/popper.min.js"></script>
+    <!-- bootstrap js -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- owl carousel js -->
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <!-- contact js -->
+    <script src="js/jquery.ajaxchimp.min.js"></script>
+    <script src="js/jquery.form.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+    <script src="js/mail-script.js"></script>
+    <script src="js/contact.js"></script>
+    <!-- custom js -->
+    <script src="js/custom.js"></script>
+</body>
+
+</html>
