@@ -14,7 +14,8 @@
             <form asp-action="Edit" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="Id" />
-                <input type="hidden" asp-for="ImageUrl" />
+                <input type="hidden" asp-for="ImageId" />
+
                 <div class="form-group">
                     <label asp-for="FirstName" class="control-label"></label>
                     <input asp-for="FirstName" class="form-control" />
@@ -48,10 +49,7 @@
             </form>
         </div>
         <div class="col-md-4">
-            @if (!string.IsNullOrEmpty(Model.ImageUrl))
-            {
-                <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:300px;height:450px;max-width:100%;height:auto;" />
-            }
+            <img src="@Url.Content(Model.ImageFullPath)" alt="Image" style="width:300px;height:450px;max-width:100%;height:auto;" />
         </div>
     </div>
 </div>

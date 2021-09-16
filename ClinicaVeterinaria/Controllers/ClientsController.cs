@@ -3,6 +3,7 @@ using ClinicaVeterinaria.Helpers;
 using ClinicaVeterinaria.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,17 +14,17 @@ namespace ClinicaVeterinaria.Controllers
         private readonly IClientRepository _clientRepository;
         private readonly IUserHelper _userHelper;
         private readonly IConverterHelper _converterHelper;
-        private readonly IImageHelper _imageHelper;
+        private readonly IBlobHelper _blobHelper;
 
         public ClientsController(IClientRepository clientRepository,
             IUserHelper userHelper,
             IConverterHelper converterHelper,
-            IImageHelper imageHelper)
+            IBlobHelper blobHelper)
         {
             _clientRepository = clientRepository;
             _userHelper = userHelper;
             _converterHelper = converterHelper;
-            _imageHelper = imageHelper;
+            _blobHelper = blobHelper;
         }
 
         // GET: Clients
@@ -65,14 +66,14 @@ namespace ClinicaVeterinaria.Controllers
         {
             if (ModelState.IsValid)
             {
-                var path = string.Empty;
+                Guid imageId = Guid.Empty;
 
-                if(model.ImageFile != null && model.ImageFile.Length > 0)
+                if (model.ImageFile != null && model.ImageFile.Length > 0)
                 {
-                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "clients");
+                    imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "clients");
                 }
 
-                var client = _converterHelper.ToClient(model, path, true);
+                var client = _converterHelper.ToClient(model, imageId, true);
 
                 //TODO: Modificar para o user que tiver logado
                 client.User = await _userHelper.GetUserByEmailAsync("lalobia62@gmail.com");
@@ -113,14 +114,14 @@ namespace ClinicaVeterinaria.Controllers
             {
                 try
                 {
-                    var path = model.ImageUrl;
+                    Guid imageId = model.ImageId;
 
                     if (model.ImageFile != null && model.ImageFile.Length > 0)
                     {
-                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "clients");
+                        imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "clients");
                     }
 
-                    var client = _converterHelper.ToClient(model, path, false);
+                    var client = _converterHelper.ToClient(model, imageId, false);
 
                     //TODO: Modificar para o user que estiver logado
                     client.User = await _userHelper.GetUserByEmailAsync("lalobia62@gmail.com");

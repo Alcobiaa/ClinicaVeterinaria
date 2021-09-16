@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ClinicaVeterinaria.Data.Entities
 {
@@ -28,23 +25,14 @@ namespace ClinicaVeterinaria.Data.Entities
         public string Breeds { get; set; }
 
         [Display(Name = "Image")]
-        public string ImageUrl { get; set; }
+        public Guid ImageId { get; set; }
 
         public string Owner { get; set; }
 
         public User User { get; set; }
 
-        public string ImageFullPath
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(ImageUrl))
-                {
-                    return null;
-                }
-
-                return $"https://clinicaveterinariacet57.azurewebsites.net{ImageUrl.Substring(1)}";
-            }
-        }
+        public string ImageFullPath => ImageId == Guid.Empty
+            ? $"https://clinicaveterinariacet57.azurewebsites.net/images/noimage.png"
+            : $"https://clinicaveterinaria.blob.core.windows.net/animals/{ImageId}";
     }
 }

@@ -1,16 +1,17 @@
 ﻿using ClinicaVeterinaria.Data.Entities;
 using ClinicaVeterinaria.Models;
+using System;
 
 namespace ClinicaVeterinaria.Helpers
 {
     public class ConverterHelper : IConverterHelper
     {
-        public Vet ToVet(VetViewModel model, string path, bool isNew)
+        public Vet ToVet(VetViewModel model, Guid imageId, bool isNew)
         {
             return new Vet
             {
                 Id = isNew ? 0 : model.Id,
-                ImageUrl = path,
+                ImageId = imageId,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 PhoneNumber = model.PhoneNumber,
@@ -29,18 +30,18 @@ namespace ClinicaVeterinaria.Helpers
                 LastName = vet.LastName,
                 Age = vet.Age,
                 Email = vet.Email,
-                ImageUrl = vet.ImageUrl,
+                ImageId = vet.ImageId,
                 PhoneNumber = vet.PhoneNumber,
                 User = vet.User
             };
         }
 
-        public Animal ToAnimal(AnimalViewModel model, string path, bool isNew)
+        public Animal ToAnimal(AnimalViewModel model, Guid imageId, bool isNew)
         {
             return new Animal
             {
                 Id = isNew ? 0 : model.Id,
-                ImageUrl = path,
+                ImageId = imageId,
                 Name = model.Name,
                 Age = model.Age,
                 Weight = model.Weight,
@@ -56,7 +57,7 @@ namespace ClinicaVeterinaria.Helpers
             return new AnimalViewModel
             {
                Id = animal.Id,
-               ImageUrl = animal.ImageUrl,
+               ImageId = animal.ImageId,
                Name = animal.Name,
                Age = animal.Age,
                Weight = animal.Weight,
@@ -67,12 +68,12 @@ namespace ClinicaVeterinaria.Helpers
             };
         }
 
-        public Client ToClient(ClientViewModel model, string path, bool isNew)
+        public Client ToClient(ClientViewModel model, Guid imageId, bool isNew)
         {
             return new Client
             {
                 Id = isNew ? 0 : model.Id,
-                ImageUrl = path,
+                ImageId = imageId,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 PhoneNumber = model.PhoneNumber,
@@ -86,7 +87,7 @@ namespace ClinicaVeterinaria.Helpers
             return new ClientViewModel
             {
                 Id = client.Id,
-                ImageUrl = client.ImageUrl,
+                ImageId = client.ImageId,
                 FirstName = client.FirstName,
                 LastName = client.LastName,
                 PhoneNumber = client.PhoneNumber,

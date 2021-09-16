@@ -19,17 +19,17 @@ namespace ClinicaVeterinaria.Controllers
         private readonly IUserHelper _userHelper;
         private readonly IConfiguration _configuration;
         private readonly IMailHelper _mailHelper;
-        private readonly IImageHelper _imageHelper;
+        private readonly IBlobHelper _blobHelper;
 
         public AccountController(IUserHelper userHelper,
             IConfiguration configuration,
             IMailHelper mailHelper,
-            IImageHelper imageHelper)
+            IBlobHelper blobHelper)
         {
             _userHelper = userHelper;
             _configuration = configuration;
             _mailHelper = mailHelper;
-            _imageHelper = imageHelper;
+            _blobHelper = blobHelper;
         }
 
         public IActionResult Index()
@@ -173,18 +173,18 @@ namespace ClinicaVeterinaria.Controllers
 
                 if (user != null)
                 {
-                    var path = model.ImageUrl;
+                    Guid imageId = model.ImageId;
 
                     if (model.ImageFile != null && model.ImageFile.Length > 0)
                     {
-                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "users");
+                        imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "users");
                     }
 
-                    model.ImageUrl = path;
+                    model.ImageId = imageId;
 
                     user.FirstName = model.FirstName;
                     user.LastName = model.LastName;
-                    user.ImageUrl = model.ImageUrl;
+                    user.ImageId = model.ImageId;
 
                     var response = await _userHelper.UpdateUserAsync(user);
 

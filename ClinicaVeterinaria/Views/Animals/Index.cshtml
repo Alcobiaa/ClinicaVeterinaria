@@ -18,7 +18,7 @@
         @foreach (var item in Model)
         {
             <div class="card" style="width: 19rem;">
-                <img src="@Url.Content(item.ImageUrl)" class="card-img-top" alt="Vet" style="width:100%; height:320px">
+                <img src="@Url.Content(item.ImageFullPath)" class="card-img-top" alt="Vet" style="width:100%; height:320px">
                 @*<img src="@Url.Content(item.ImageUrl)" class="card-img-top" alt="Vet">*@
                 <div class="card-body">
                     <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>

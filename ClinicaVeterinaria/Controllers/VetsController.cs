@@ -3,6 +3,7 @@ using ClinicaVeterinaria.Helpers;
 using ClinicaVeterinaria.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,17 +14,17 @@ namespace ClinicaVeterinaria.Controllers
     {
         private readonly IVetRepository _vetRepository;
         private readonly IUserHelper _userHelper;
-        private readonly IImageHelper _imageHelper;
+        private readonly IBlobHelper _blobHelper;
         private readonly IConverterHelper _converterHelper;
 
         public VetsController(IVetRepository vetRepository,
             IUserHelper userHelper,
-            IImageHelper imageHelper,
+            IBlobHelper blobHelper,
             IConverterHelper converterHelper)
         {
             _vetRepository = vetRepository;
             _userHelper = userHelper;
-            _imageHelper = imageHelper;
+            _blobHelper = blobHelper;
             _converterHelper = converterHelper;
         }
 
@@ -66,14 +67,14 @@ namespace ClinicaVeterinaria.Controllers
         {
             if (ModelState.IsValid)
             {
-                var path = string.Empty;
+                Guid imageId = Guid.Empty;
 
                 if (model.ImageFile != null && model.ImageFile.Length > 0)
                 {
-                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "vets");
+                    imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "vets");
                 }
 
-                var vet = _converterHelper.ToVet(model, path, true);
+                var vet = _converterHelper.ToVet(model, imageId, true);
 
                 //TODO: Modificar para o user que tiver logado
                 vet.User = await _userHelper.GetUserByEmailAsync("lalobia62@gmail.com");
@@ -114,14 +115,14 @@ namespace ClinicaVeterinaria.Controllers
             {
                 try
                 {
-                    var path = model.ImageUrl;
+                    Guid imageId = model.ImageId;
 
                     if (model.ImageFile != null && model.ImageFile.Length > 0)
                     {
-                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "vets");
+                        imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "vets");
                     }
 
-                    var vet = _converterHelper.ToVet(model, path, false);
+                    var vet = _converterHelper.ToVet(model, imageId, false);
 
                     //TODO: Modificar para o user que estiver logado
                     vet.User = await _userHelper.GetUserByEmailAsync("lalobia62@gmail.com");

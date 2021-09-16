@@ -21,7 +21,7 @@ namespace ClinicaVeterinaria.Data.Entities
         public string LastName { get; set; }
 
         [Display(Name = "Image")]
-        public string ImageUrl { get; set; }
+        public Guid ImageId { get; set; }
 
         [Required]
         [Display(Name = "Phone Number")]
@@ -34,17 +34,8 @@ namespace ClinicaVeterinaria.Data.Entities
 
         public User User { get; set; }
 
-        public string ImageFullPath
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(ImageUrl))
-                {
-                    return null;
-                }
-
-                return $"https://clinicaveterinariacet57.azurewebsites.net{ImageUrl.Substring(1)}";
-            }
-        }
+        public string ImageFullPath => ImageId == Guid.Empty
+            ? $"https://clinicaveterinariacet57.azurewebsites.net/images/noimage.png"
+            : $"https://clinicaveterinaria.blob.core.windows.net/clients/{ImageId}";
     }
 }
