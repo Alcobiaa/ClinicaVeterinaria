@@ -32,6 +32,11 @@ namespace ClinicaVeterinaria.Controllers
             _imageHelper = imageHelper;
         }
 
+        public IActionResult Index()
+        {
+            return View(_userHelper.GetAll());
+        }
+        
         public IActionResult Login()
         {
             if (User.Identity.IsAuthenticated)
@@ -74,7 +79,12 @@ namespace ClinicaVeterinaria.Controllers
 
         public IActionResult Register()
         {
-            return View();
+            var model = new RegisterNewUserViewModel
+            {
+                Roles = _userHelper.GetComboRoles(),
+            };
+
+            return View(model);
         }
 
         [HttpPost]
@@ -83,6 +93,8 @@ namespace ClinicaVeterinaria.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userHelper.GetUserByEmailAsync(model.Username);
+
+                var role = await _userHelper.GetRoleAsync(model.RoleID.ToString());
 
                 if (user == null)
                 {
@@ -100,6 +112,15 @@ namespace ClinicaVeterinaria.Controllers
                     {
                         ModelState.AddModelError(string.Empty, "The user couldn´t be created.");
                         return View(model);
+                    }
+
+                    await _userHelper.AddUserToRoleAsync(user, role.ToString());
+
+                    var isInRole = await _userHelper.IsUserInRoleAsync(user, role.ToString());
+
+                    if (!isInRole)
+                    {
+                        await _userHelper.AddUserToRoleAsync(user, role.ToString());
                     }
 
                     string myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);

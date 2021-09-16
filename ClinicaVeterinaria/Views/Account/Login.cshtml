@@ -62,6 +62,17 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Clients" asp-action="Index">Clients</a>
                                 </li>
+
+                                @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin"))
+                                {
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
+                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Index">Users</a></li>
+                                        </ul>
+                                    </li>
+                                }
+
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Communications</a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">

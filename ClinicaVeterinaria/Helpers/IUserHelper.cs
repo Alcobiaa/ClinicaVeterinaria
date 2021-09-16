@@ -1,6 +1,9 @@
 ﻿using ClinicaVeterinaria.Data.Entities;
 using ClinicaVeterinaria.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ClinicaVeterinaria.Helpers
@@ -31,6 +34,16 @@ namespace ClinicaVeterinaria.Helpers
 
         Task<User> GetUserByIdAsync(string userId);
 
+        Task CheckRoleAsync(string roleName);
 
+        Task AddUserToRoleAsync(User user, string roleName);
+
+        Task<bool> IsUserInRoleAsync(User user, string roleName);
+
+        IEnumerable<SelectListItem> GetComboRoles();
+
+        Task<IdentityRole> GetRoleAsync(string id);
+
+        IQueryable<User> GetAll();
     }
 }

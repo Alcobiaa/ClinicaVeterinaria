@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="~/css/style.css">
     <!-- Font Awsome -->
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css">
-    <!-- Error Css-->
+    <!-- Error 404 Css -->
     <link rel="stylesheet" href="~/css/error404.css">
 </head>
 
@@ -61,6 +61,17 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Clients" asp-action="Index">Clients</a>
                                 </li>
+
+                                @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin"))
+                                {
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
+                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Index">Users</a></li>
+                                        </ul>
+                                    </li>
+                                 }
+
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Communications</a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -73,14 +84,14 @@
                             <!--Lado Direito-->
                             <ul class="nav navbar-nav navbar-right">
                                 @if (this.User.Identity.IsAuthenticated)
-                                 {
+                                {
                                     <li class="nav-item">
                                         <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="ChangeUser">@this.User.Identity.Name</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
                                     </li>
-                                 }
+                                }
                                 else
                                 {
                                     <li class="nav-item">

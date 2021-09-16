@@ -3,54 +3,72 @@
     ViewData["Title"] = "Register";
 }
 
-<h2>Register New User</h2>
 
-<hr />
+<div class="col-sm-12 col-xs-15 pull-left">
+    <h2><i class="fas fa-user-plus"></i> Register New User</h2>
+    <hr />
+    <br />
 
-<div class="row">
-    <div class="col-md-4 offset-md-4">
-        <form method="post" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly"></div>
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <form method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly"></div>
 
-            <div class="form-group">
-                <label asp-for="FirstName">First Name</label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-warning"></span>
-            </div>
+                <div class="form-group">
+                    <label asp-for="FirstName">First Name</label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-warning"></span>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="LastName">First Name</label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-warning"></span>
-            </div>
+                <div class="form-group">
+                    <label asp-for="LastName">First Name</label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-warning"></span>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="Username">Username</label>
-                <input asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="text-warning"></span>
-            </div>
+                <div class="form-group">
+                    @*@Html.DropDownListFor(model => model.Role, new )*@
+                    <label asp-for="RoleID">Role</label>
+                    <p></p>
+                    <Select asp-for="RoleID" asp-items="Model.Roles" class="form-control"></Select>
+                    @*<span asp-validation-for="RoleID" class="text-warning"></span>*@
+                </div>
+                <br />
+                <br />
+                <div class="form-group">
+                    <label asp-for="Username">Username</label>
+                    <input asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="text-warning"></span>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="Password">Password</label>
-                <input asp-for="Password" type="password" class="form-control" />
-                <span asp-validation-for="Password" class="text-warning"></span>
-            </div>
+                <div class="form-group">
+                    <label asp-for="Password">Password</label>
+                    <input asp-for="Password" type="password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-warning"></span>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="ConfirmPassword">Confirm</label>
-                <input asp-for="ConfirmPassword" type="password" class="form-control" />
-                <span asp-validation-for="ConfirmPassword" class="text-warning"></span>
-            </div>
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword">Confirm</label>
+                    <input asp-for="ConfirmPassword" type="password" class="form-control" />
+                    <span asp-validation-for="ConfirmPassword" class="text-warning"></span>
+                </div>
 
-            <div class="form-group">
-                <button type="submit" value="Register New User" class="btn btn-primary"><i class="fas fa-plus"> Register New User</i></button>
-                <a asp-action="Login" class="btn btn-success"><i class="fas fa-angle-double-left"></i> Back to login</a>
-            </div>
-        </form>
+                <div class="form-group">
+                    <button type="submit" value="Register New User" class="btn btn-primary"><i class="fas fa-plus"> Register New User</i></button>
+                    <a asp-action="Login" class="btn btn-success"><i class="fas fa-angle-double-left"></i> Back to login</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+<div class="text-success">
+    <p>
+        @ViewBag.Message
+    </p>
+</div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
 

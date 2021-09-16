@@ -1,7 +1,8 @@
-﻿using ClinicaVeterinaria.Data.Entities;
+﻿using ClinicaVeterinaria.Data;
+using ClinicaVeterinaria.Data.Entities;
 using ClinicaVeterinaria.Models;
 using Microsoft.AspNetCore.Identity;
-using System;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,13 +13,20 @@ namespace ClinicaVeterinaria.Helpers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly DataContext _dataContext;
 
-        public UserHelper(UserManager<User> userManager, SignInManager<User> signInManager)
+        public UserHelper(UserManager<User> userManager,
+            SignInManager<User> signInManager,
+            RoleManager<IdentityRole> roleManager,
+            DataContext dataContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
+            _dataContext = dataContext;
         }
-        
+
         public async Task<IdentityResult> AddUserAsync(User user, string password)
         {
             return await _userManager.CreateAsync(user, password);
@@ -84,6 +92,56 @@ namespace ClinicaVeterinaria.Helpers
         public async Task<User> GetUserByIdAsync(string userId)
         {
             return await _userManager.FindByIdAsync(userId);
+        }
+
+        public async Task CheckRoleAsync(string roleName)
+        {
+            var roleExists = await _roleManager.RoleExistsAsync(roleName);
+
+            if (!roleExists)
+            {
+                await _roleManager.CreateAsync(new IdentityRole
+                {
+                    Name = roleName
+                });
+            }
+        }
+
+        public async Task AddUserToRoleAsync(User user, string roleName)
+        {
+            await _userManager.AddToRoleAsync(user, roleName);
+        }
+
+        public async Task<bool> IsUserInRoleAsync(User user, string roleName)
+        {
+            return await _userManager.IsInRoleAsync(user, roleName);
+        }
+
+        public IQueryable<User> GetAll()
+        {
+            return _dataContext.Set<User>();
+        }
+
+        public async Task<IdentityRole> GetRoleAsync(string id)
+        {
+            return await _roleManager.FindByIdAsync(id);
+        }
+
+        public IEnumerable<SelectListItem> GetComboRoles()
+        {
+            var list = _roleManager.Roles.Select(c => new SelectListItem
+            {
+                Text = c.Name,
+                Value = c.Id.ToString()
+            }).OrderBy(l => l.Text).ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Select a Role...)",
+                Value = "0"
+            });
+
+            return list;
         }
     }
 }

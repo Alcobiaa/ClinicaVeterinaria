@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,6 +20,10 @@ namespace ClinicaVeterinaria.Models
 
         [Display(Name = "Image")]
         public string ImageUrl { get; set; }
+
+        public string RoleID { get; set; }
+
+        public IEnumerable<SelectListItem> Roles { get; set; }
 
         [Required]
         [DataType(DataType.EmailAddress)]
