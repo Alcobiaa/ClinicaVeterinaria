@@ -43,7 +43,7 @@ namespace ClinicaVeterinaria.Data.Entities
                     return null;
                 }
 
-                return $"https://localhost:44321{ImageUrl.Substring(1)}";
+                return $"https://clinicaveterinariacet57.azurewebsites.net{ImageUrl.Substring(1)}";
             }
         }
     }
