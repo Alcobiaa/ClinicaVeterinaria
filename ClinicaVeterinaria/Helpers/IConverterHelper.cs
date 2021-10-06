@@ -17,5 +17,9 @@ namespace ClinicaVeterinaria.Helpers
         Client ToClient(ClientViewModel model, Guid imageId, bool isNew);
 
         ClientViewModel ToClientViewModel(Client client);
+
+        VetAppointment ToVetAppointment (VetAppointmentViewModel model, bool isNew);
+
+        VetAppointmentViewModel ToVetAppointmentViewModel(VetAppointment vetAppointment);
     }
 }

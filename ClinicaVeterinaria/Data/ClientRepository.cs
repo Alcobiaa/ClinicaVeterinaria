@@ -1,9 +1,6 @@
 ﻿using ClinicaVeterinaria.Data.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ClinicaVeterinaria.Data
 {
@@ -11,7 +8,7 @@ namespace ClinicaVeterinaria.Data
     {
         private readonly DataContext _context;
 
-        public ClientRepository(DataContext context) : base (context)
+        public ClientRepository(DataContext context) : base(context)
         {
             _context = context;
         }

@@ -15,16 +15,19 @@ namespace ClinicaVeterinaria.Controllers
         private readonly IAnimalRepository _animalRepository;
         private readonly IConverterHelper _converterHelper;
         private readonly IBlobHelper _blobHelper;
+        private readonly IClientRepository _clientRepository;
 
         public AnimalsController(IAnimalRepository animalRepository,
             IUserHelper userHelper,
             IConverterHelper converterHelper,
-            IBlobHelper blobHelper)
+            IBlobHelper blobHelper,
+            IClientRepository clientRepository)
         {
             _userHelper = userHelper;
             _animalRepository = animalRepository;
             _converterHelper = converterHelper;
             _blobHelper = blobHelper;
+            _clientRepository = clientRepository;
         }
 
         // GET: Animals
@@ -56,7 +59,12 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Animals/Create
         public IActionResult Create()
         {
-            return View();
+            var model = new AnimalViewModel
+            {
+                Clients = _animalRepository.GetComboClients()
+            };
+
+            return View(model);
         }
 
         // POST: Animals/Create
@@ -75,7 +83,10 @@ namespace ClinicaVeterinaria.Controllers
                     imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "animals");
                 }
 
+                var client = await _clientRepository.GetByIdAsync(model.ClientId);
                 var animal = _converterHelper.ToAnimal(model, imageId, true);
+
+                animal.ClientName = client.FirstName + " " + client.LastName;
 
                 //TODO: Modificar para o user que tiver logado
                 animal.User = await _userHelper.GetUserByEmailAsync("lalobia62@gmail.com");
@@ -103,6 +114,8 @@ namespace ClinicaVeterinaria.Controllers
             }
 
             var model = _converterHelper.ToAnimalViewModel(animal);
+
+            model.Clients = _animalRepository.GetComboClients();
 
             return View(model);
         }

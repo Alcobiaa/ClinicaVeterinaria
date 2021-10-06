@@ -1,0 +1,92 @@
+﻿@model IEnumerable<ClinicaVeterinaria.Data.Entities.VetAppointment>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" />
+
+<br />
+
+<p>
+    <a asp-action="Create" class="btn btn-primary"><i class="fa fa-save"></i> Create New</a>
+</p>
+
+<br />
+
+<div class="container">
+    <main role="main" class="pb-3">
+        @*<div class="row">*@
+            <div class="col-sm-11 col-xs-11 pull-right">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Veternary Appointments</h3>
+                    </div>
+                    <br />
+                    <div class="panel-body">
+                        <table class="table table-hover table-responsive table-striped" id="MyTable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.AnimalName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.VetName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Room)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Date)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Hour)
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.AnimalName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.VetName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Room)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Date)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Hour)
+                                        </td>
+                                        <td>
+                                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning"><i class="far fa-edit"></i></a>
+                                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info"><i class="fas fa-list"></i></a>
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            @*</div>*@
+        </div>
+    </main>
+</div>
+
+
+
+@section Scripts{
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#MyTable').DataTable();
+        });
+    </script>
+}

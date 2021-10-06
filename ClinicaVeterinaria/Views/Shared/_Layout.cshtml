@@ -57,7 +57,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Animals" asp-action="Index">Animals</a>
                                 </li>
-
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="VetAppointment" asp-action="Index">Appointments</a>
+                                </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Clients" asp-action="Index">Clients</a>
                                 </li>
@@ -70,7 +72,7 @@
                                             <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Index">Users</a></li>
                                         </ul>
                                     </li>
-                                 }
+                                }
 
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Communications</a>
@@ -85,11 +87,12 @@
                             <ul class="nav navbar-nav navbar-right">
                                 @if (this.User.Identity.IsAuthenticated)
                                 {
-                                    <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="ChangeUser">@this.User.Identity.Name</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@this.User.Identity.Name</a>
+                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="ChangeUser">User Settings</a></li>
+                                            <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                                        </ul>
                                     </li>
                                 }
                                 else
@@ -107,7 +110,6 @@
     </header>
     <!-- Header part end-->
 
-
     <!-- Main part start-->
     <div class="footer-area">
         <div class="footer section_padding">
@@ -119,7 +121,6 @@
         </div>
     </div>
     <!-- Main part end-->
-
 
     <!-- Footer part start-->
     <footer class="footer-area" style="bottom: 0; position: fixed; width:100%">
@@ -136,9 +137,6 @@
         </div>
     </footer>
     <!-- footer part end-->
-
-
-
     <!-- jquery plugins here-->
 
     <script src="~/js/jquery-1.12.1.min.js"></script>

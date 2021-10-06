@@ -11,6 +11,8 @@ namespace ClinicaVeterinaria.Data
         public DbSet<Animal> Animals { get; set; }
 
         public DbSet<Client> Clients { get; set; }
+
+        public DbSet<VetAppointment> VetAppointments { get; set; }
         
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {

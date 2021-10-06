@@ -4,14 +4,16 @@ using ClinicaVeterinaria.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ClinicaVeterinaria.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211004164113_FullName")]
+    partial class FullName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,8 +42,8 @@ namespace ClinicaVeterinaria.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("OwnerId")
-                        .HasColumnType("int");
+                    b.Property<string>("Owner")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Species")
                         .IsRequired()
@@ -54,8 +56,6 @@ namespace ClinicaVeterinaria.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OwnerId");
 
                     b.HasIndex("UserId");
 
@@ -222,10 +222,7 @@ namespace ClinicaVeterinaria.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AnimalId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("AnimalName")
+                    b.Property<string>("Animal")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Date")
@@ -240,10 +237,7 @@ namespace ClinicaVeterinaria.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("VetId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("VetName")
+                    b.Property<string>("Vet")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -386,17 +380,9 @@ namespace ClinicaVeterinaria.Migrations
 
             modelBuilder.Entity("ClinicaVeterinaria.Data.Entities.Animal", b =>
                 {
-                    b.HasOne("ClinicaVeterinaria.Data.Entities.Client", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ClinicaVeterinaria.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-
-                    b.Navigation("Owner");
 
                     b.Navigation("User");
                 });

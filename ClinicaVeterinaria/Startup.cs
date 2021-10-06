@@ -62,6 +62,7 @@ namespace ClinicaVeterinaria
             services.AddScoped<IVetRepository, VetRepository>();
             services.AddScoped<IAnimalRepository, AnimalRepository>();
             services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddScoped<IVetAppointmentRepository, VetAppointmentRepository>();
             services.AddScoped<IUserHelper, UserHelper>();
             services.AddScoped<IMailHelper, MailHelper>();
             services.AddScoped<ISMSHelper, SMSHelper>();

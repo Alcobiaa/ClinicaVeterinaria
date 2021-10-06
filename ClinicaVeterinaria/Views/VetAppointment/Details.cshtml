@@ -1,9 +1,7 @@
-﻿@model ClinicaVeterinaria.Data.Entities.Animal
-
+﻿@model ClinicaVeterinaria.Data.Entities.VetAppointment
 @{
     ViewData["Title"] = "Details";
 }
-
 
 <div class="col-sm-9 col-xs-12 pull-left">
     <h2><i class="fas fa-info-circle"></i> Details</h2>
@@ -14,46 +12,38 @@
         <div class="col-md-8">
             <dl class="row">
                 <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.Name)
+                    @Html.DisplayNameFor(model => model.AnimalName)
                 </dt>
                 <dd class="col-sm-9">
-                    @Html.DisplayFor(model => model.Name)
+                    @Html.DisplayFor(model => model.AnimalName)
                 </dd>
                 <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.Age)
+                    @Html.DisplayNameFor(model => model.VetName)
                 </dt>
                 <dd class="col-sm-9">
-                    @Html.DisplayFor(model => model.Age)
+                    @Html.DisplayFor(model => model.VetName)
                 </dd>
                 <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.Species)
+                    @Html.DisplayNameFor(model => model.Room)
                 </dt>
                 <dd class="col-sm-9">
-                    @Html.DisplayFor(model => model.Species)
+                    @Html.DisplayFor(model => model.Room)
                 </dd>
                 <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.Weight)
+                    @Html.DisplayNameFor(model => model.Date)
                 </dt>
                 <dd class="col-sm-9">
-                    @Html.DisplayFor(model => model.Weight)
+                    @Html.DisplayFor(model => model.Date)
                 </dd>
                 <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.Breeds)
+                    @Html.DisplayNameFor(model => model.Hour)
                 </dt>
                 <dd class="col-sm-9">
-                    @Html.DisplayFor(model => model.Breeds)
-                </dd>
-                <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.ClientName)
-                </dt>
-                <dd class="col-sm-9">
-                    @Html.DisplayFor(model => model.ClientName)
+                    @Html.DisplayFor(model => model.Hour)
                 </dd>
             </dl>
         </div>
-        <div class="col-md-4">
-            <img src="@Url.Content(Model.ImageFullPath)" alt="Image" style="width:300px;height:450px;max-width:100%;height:auto;" />
-        </div>
+        <br />
     </div>
     <div>
         <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning"><i class="fas fa-user-edit"></i> Edit</a>
@@ -64,3 +54,4 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+

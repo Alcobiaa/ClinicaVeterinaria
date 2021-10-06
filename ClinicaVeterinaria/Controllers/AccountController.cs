@@ -1,6 +1,7 @@
 ﻿using ClinicaVeterinaria.Data.Entities;
 using ClinicaVeterinaria.Helpers;
 using ClinicaVeterinaria.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;

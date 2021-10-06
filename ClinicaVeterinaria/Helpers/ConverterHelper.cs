@@ -48,7 +48,6 @@ namespace ClinicaVeterinaria.Helpers
                 Breeds = model.Breeds,
                 Species = model.Species,
                 User = model.User,
-                Owner = model.Owner
             };
         }
 
@@ -56,15 +55,14 @@ namespace ClinicaVeterinaria.Helpers
         {
             return new AnimalViewModel
             {
-               Id = animal.Id,
-               ImageId = animal.ImageId,
-               Name = animal.Name,
-               Age = animal.Age,
-               Weight = animal.Weight,
-               Breeds = animal.Breeds,
-               Species = animal.Species,
-               User = animal.User,
-               Owner = animal.Owner
+                Id = animal.Id,
+                ImageId = animal.ImageId,
+                Name = animal.Name,
+                Age = animal.Age,
+                Weight = animal.Weight,
+                Breeds = animal.Breeds,
+                Species = animal.Species,
+                User = animal.User,
             };
         }
 
@@ -96,5 +94,36 @@ namespace ClinicaVeterinaria.Helpers
             };
         }
 
+        public VetAppointment ToVetAppointment(VetAppointmentViewModel model, bool isNew)
+        {
+            return new VetAppointment
+            {
+                Id = isNew ? 0 : model.Id,
+                AnimalId = model.AnimalId,
+                AnimalName = model.AnimalName,
+                VetId = model.VetId,
+                VetName = model.VetName,
+                Room = model.Room,
+                Date = model.Date,
+                Hour = model.Hour,
+                User = model.User,
+            };
+        }
+
+        public VetAppointmentViewModel ToVetAppointmentViewModel(VetAppointment vetAppointment)
+        {
+            return new VetAppointmentViewModel
+            {
+                Id = vetAppointment.Id,
+                AnimalId = vetAppointment.AnimalId,
+                AnimalName = vetAppointment.AnimalName,
+                VetId = vetAppointment.VetId,
+                VetName = vetAppointment.VetName,
+                Room = vetAppointment.Room,
+                Date = vetAppointment.Date,
+                Hour = vetAppointment.Hour,
+                User = vetAppointment.User,
+            };
+        }
     }
 }

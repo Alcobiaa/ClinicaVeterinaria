@@ -5,10 +5,12 @@ using System.Linq;
 
 namespace ClinicaVeterinaria.Data
 {
-    public interface IAnimalRepository : IGenericRepository<Animal>
+    public interface IVetAppointmentRepository : IGenericRepository<VetAppointment>
     {
         public IQueryable GetAllWithUsers();
 
-        IEnumerable<SelectListItem> GetComboClients();
+        IEnumerable<SelectListItem> GetComboAnimals();
+
+        IEnumerable<SelectListItem> GetComboVets();
     }
 }
