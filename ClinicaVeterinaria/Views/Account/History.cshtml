@@ -1,0 +1,70 @@
+﻿@model IEnumerable<ClinicaVeterinaria.Data.Entities.History>
+@{
+    ViewData["Title"] = "History";
+}
+
+<div class="container">
+    <main role="main" class="pb-3">
+        <div class="col-sm-11 col-xs-11 pull-right">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Animals Appointments</h3>
+                </div>
+                <br />
+                <div class="panel-body">
+                    <table class="table table-hover table-responsive table-striped" id="MyTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.AnimalName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.VetName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Room)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Date)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AnimalName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.VetName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Room)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Date)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+
+
+@section Scripts{
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#MyTable').DataTable();
+        });
+    </script>
+}
+

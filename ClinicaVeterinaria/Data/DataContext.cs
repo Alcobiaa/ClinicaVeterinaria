@@ -20,6 +20,8 @@ namespace ClinicaVeterinaria.Data
 
         public DbSet<UsersClients> UsersClients { get; set; }
 
+        public DbSet<History> Historys { get; set; }
+
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
 

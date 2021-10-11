@@ -4,11 +4,10 @@ using System.Collections.Generic;
 
 namespace ClinicaVeterinaria.Models
 {
-    public class VetAppointmentViewModel : VetAppointment
+    public class HistoryViewModel : History
     {
         public IEnumerable<SelectListItem> Animals { get; set; }
 
         public IEnumerable<SelectListItem> Vets { get; set; }
-
     }
 }

@@ -24,13 +24,19 @@ namespace ClinicaVeterinaria.Controllers
         private readonly IBlobHelper _blobHelper;
         private readonly IUsersClientsRepository _usersClientsRepository;
         private readonly DataContext _context;
+        private readonly IVetAppointmentRepository _vetAppointmentRepository;
+        private readonly IAnimalRepository _animalRepository;
+        private readonly IHistoryRepository _historyRepository;
 
         public AccountController(IUserHelper userHelper,
             IConfiguration configuration,
             IMailHelper mailHelper,
             IBlobHelper blobHelper,
             IUsersClientsRepository usersClientsRepository,
-            DataContext context)
+            DataContext context,
+            IVetAppointmentRepository vetAppointmentRepository,
+            IAnimalRepository animalRepository,
+            IHistoryRepository historyRepository)
         {
             _userHelper = userHelper;
             _configuration = configuration;
@@ -38,6 +44,9 @@ namespace ClinicaVeterinaria.Controllers
             _blobHelper = blobHelper;
             _usersClientsRepository = usersClientsRepository;
             _context = context;
+            _vetAppointmentRepository = vetAppointmentRepository;
+            _animalRepository = animalRepository;
+            _historyRepository = historyRepository;
         }
 
         public IActionResult Index()
@@ -45,6 +54,7 @@ namespace ClinicaVeterinaria.Controllers
             return View(_userHelper.GetAll());
         }
         
+
         public IActionResult Login()
         {
             if (User.Identity.IsAuthenticated)
@@ -188,6 +198,7 @@ namespace ClinicaVeterinaria.Controllers
 
             return View(model);
         }
+
 
         [HttpPost]
         [Authorize(Roles = "Admin, Employee, Client")]
@@ -454,6 +465,16 @@ namespace ClinicaVeterinaria.Controllers
             }
 
             return View(client);
+        }
+
+
+        public async Task<IActionResult> History()
+        {
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+
+            var history = _historyRepository.GetAll().Where(u => u.ClientName == user.FirstName + " " + user.LastName);
+            
+            return View(_historyRepository.GetAll().Where(u => u.ClientName == user.FirstName + " " + user.LastName));
         }
 
     }

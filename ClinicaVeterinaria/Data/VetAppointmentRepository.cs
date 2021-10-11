@@ -1,10 +1,8 @@
 ﻿using ClinicaVeterinaria.Data.Entities;
 using ClinicaVeterinaria.Helpers;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ClinicaVeterinaria.Data
 {

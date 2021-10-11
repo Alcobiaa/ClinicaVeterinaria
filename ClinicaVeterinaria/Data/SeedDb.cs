@@ -41,7 +41,8 @@ namespace ClinicaVeterinaria.Data
                     LastName = "Alcobia",
                     Email = "lalobia62@gmail.com",
                     UserName = "lalobia62@gmail.com",
-                    RoleName = "Admin"
+                    RoleName = "Admin",
+                    EmailConfirmed = true,
                 };
 
                 var result = await _userHelper.AddUserAsync(user, "123456");
@@ -52,6 +53,10 @@ namespace ClinicaVeterinaria.Data
                 }
 
                 await _userHelper.AddUserToRoleAsync(user, "Admin");
+
+                var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+
+                await _userHelper.ConfirmEmailAsync(user, token);
             }
 
             var isInRole = await _userHelper.IsUserInRoleAsync(user, "Admin");

@@ -1,5 +1,4 @@
 ﻿using ClinicaVeterinaria.Data;
-using ClinicaVeterinaria.Data.Entities;
 using ClinicaVeterinaria.Helpers;
 using ClinicaVeterinaria.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -20,6 +19,7 @@ namespace ClinicaVeterinaria.Controllers
         private readonly IVetRepository _vetRepository;
         private readonly IAnimalRepository _animalRepository;
         private readonly DataContext _context;
+        private readonly IHistoryRepository _historyRepository;
 
         public VetAppointmentController(IVetAppointmentRepository vetAppointment,
             IUserHelper userHelper,
@@ -27,7 +27,8 @@ namespace ClinicaVeterinaria.Controllers
             IBlobHelper blobHelper,
             IVetRepository vetRepository,
             IAnimalRepository animalRepository,
-            DataContext context)
+            DataContext context,
+            IHistoryRepository historyRepository)
 
         {
             _vetAppointment = vetAppointment;
@@ -37,6 +38,7 @@ namespace ClinicaVeterinaria.Controllers
             _vetRepository = vetRepository;
             _animalRepository = animalRepository;
             _context = context;
+            _historyRepository = historyRepository;
         }
 
 
@@ -52,7 +54,7 @@ namespace ClinicaVeterinaria.Controllers
                 return View(_vetAppointment.GetAll().OrderBy(v => v.Id));
             }
 
-            if(user.RoleName == "Client")
+            if (user.RoleName == "Client")
             {
                 return View(_context.VetAppointments.Where(v => v.ClientName == user.FirstName + " " + user.LastName));
             }
@@ -63,7 +65,7 @@ namespace ClinicaVeterinaria.Controllers
         public ActionResult NoVetAppointments()
         {
             return View();
-        } 
+        }
 
 
         // GET: VetAppointmentController/Details/5
@@ -109,10 +111,22 @@ namespace ClinicaVeterinaria.Controllers
             model.AnimalName = animal.Name;
             model.ClientName = animal.ClientName;
 
+            var model2 = new HistoryViewModel
+            {
+                VetName = vet.FirstName + " " + vet.LastName,
+                AnimalName = animal.Name,
+                ClientName = animal.ClientName,
+                Room = model.Room,
+                AnimalId = model.AnimalId,
+                VetId = model.VetId,
+                Date = model.Date,
+            };
+
             if (ModelState.IsValid)
             {
                 //model.UserId = user.User
                 await _vetAppointment.CreateAsync(model);
+                await _historyRepository.CreateAsync(model2);
                 return RedirectToAction(nameof(Index));
             }
 

@@ -87,15 +87,24 @@
                             <!--Lado Direito-->
                             <ul class="nav navbar-nav navbar-right">
                                 @if (this.User.Identity.IsAuthenticated)
-                                {
+                                 {
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@this.User.Identity.Name</a>
                                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="ChangeUser">User Settings</a></li>
-                                            <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                                            @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Client"))
+                                            {
+                                                <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="ChangeUser">User Settings</a></li>
+                                                <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="History">History</a></li>
+                                                <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                                            }
+                                            else
+                                            {
+                                                <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="ChangeUser">User Settings</a></li>
+                                                <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                                            }
                                         </ul>
                                     </li>
-                                }
+                                 }
                                 else
                                 {
                                     <li class="nav-item">
@@ -111,6 +120,7 @@
         </div>
     </header>
     <!-- Header part end-->
+
     <!-- Login Start -->
     <section class="regervation_part section_padding" style="height:100%">
         <div class="container">

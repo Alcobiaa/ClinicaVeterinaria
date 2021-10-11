@@ -34,6 +34,7 @@ namespace ClinicaVeterinaria
                 cfg.Password.RequireUppercase = false;
                 cfg.Password.RequireLowercase = false;
                 cfg.Password.RequireNonAlphanumeric = false;
+                cfg.SignIn.RequireConfirmedEmail = true;
                 cfg.Password.RequiredLength = 6;
             })
                 .AddDefaultTokenProviders()
@@ -64,6 +65,7 @@ namespace ClinicaVeterinaria
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IVetAppointmentRepository, VetAppointmentRepository>();
             services.AddScoped<IUsersClientsRepository, UsersClientsRepository>();
+            services.AddScoped<IHistoryRepository, HistoryRepository>();
             services.AddScoped<IUserHelper, UserHelper>();
             services.AddScoped<IMailHelper, MailHelper>();
             services.AddScoped<ISMSHelper, SMSHelper>();
