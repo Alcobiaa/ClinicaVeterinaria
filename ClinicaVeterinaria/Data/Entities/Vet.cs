@@ -23,6 +23,9 @@ namespace ClinicaVeterinaria.Data.Entities
         [Display(Name = "Image")]
         public Guid ImageId { get; set; }
 
+        [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Age { get; set; }
 
         [Display(Name = "Phone Number")]

@@ -48,6 +48,7 @@ namespace ClinicaVeterinaria.Helpers
                 Breeds = model.Breeds,
                 Species = model.Species,
                 User = model.User,
+                ClientName = model.ClientName,
             };
         }
 
@@ -62,6 +63,7 @@ namespace ClinicaVeterinaria.Helpers
                 Weight = animal.Weight,
                 Breeds = animal.Breeds,
                 Species = animal.Species,
+                ClientName = animal.ClientName,
                 User = animal.User,
             };
         }
@@ -105,6 +107,7 @@ namespace ClinicaVeterinaria.Helpers
                 VetName = model.VetName,
                 Room = model.Room,
                 Date = model.Date,
+                ClientName = model.ClientName
             };
         }
 
@@ -119,6 +122,7 @@ namespace ClinicaVeterinaria.Helpers
                 VetName = vetAppointment.VetName,
                 Room = vetAppointment.Room,
                 Date = vetAppointment.Date,
+                ClientName = vetAppointment.ClientName
             };
         }
     }

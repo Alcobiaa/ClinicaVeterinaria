@@ -27,7 +27,7 @@
 
                 <div class="form-group">
                     <label asp-for="Age" class="control-label"></label>
-                    <input asp-for="Age" class="form-control" />
+                    <input id="datePicker" asp-for="Age" />
                     <span asp-validation-for="Age" class="text-danger"></span>
                 </div>
 
@@ -69,6 +69,16 @@
 
 
 @section Scripts {
-  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        <script>
+            // initialize DatePicker component
+            var datepicker = new ej.calendars.DatePicker({
+                placeholder: "Select a date",
+                width: "250px"
+            });
+            // Render initialized DatePicker.
+            datepicker.appendTo('#datePicker')
+        </script>
+    }
 }
 

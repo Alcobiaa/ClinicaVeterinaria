@@ -154,7 +154,12 @@ namespace ClinicaVeterinaria.Controllers
                         imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "animals");
                     }
 
+                    var userClient = await _usersClientsRepository.GetByIdAsync(model.UsersClientsId);
                     var animal = _converterHelper.ToAnimal(model, imageId, false);
+
+                    model.ClientName = userClient.FirstName + " " + userClient.LastName;
+                    animal.ClientName = userClient.FirstName + " " + userClient.LastName;
+                    animal.UsersClientsId = userClient.Id;
 
                     //TODO: Modificar para o user que estiver logado
                     animal.User = await _userHelper.GetUserByEmailAsync("lalobia62@gmail.com");

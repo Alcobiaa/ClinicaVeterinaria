@@ -2,6 +2,7 @@
 using ClinicaVeterinaria.Data.Entities;
 using ClinicaVeterinaria.Helpers;
 using ClinicaVeterinaria.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace ClinicaVeterinaria.Controllers
 {
+    [Authorize(Roles = "Employee, Client")]
     public class VetAppointmentController : Controller
     {
         private readonly IVetAppointmentRepository _vetAppointment;
