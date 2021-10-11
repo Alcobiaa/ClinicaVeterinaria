@@ -89,7 +89,7 @@
                             <!--Lado Direito-->
                             <ul class="nav navbar-nav navbar-right">
                                 @if (this.User.Identity.IsAuthenticated)
-                                 {
+                                {
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@this.User.Identity.Name</a>
                                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -97,15 +97,15 @@
                                             <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a></li>
                                         </ul>
                                     </li>
-                                    
-                                    
+
+
                                     @*<li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="ChangeUser">@this.User.Identity.Name</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
-                                    </li>*@
-                                 }
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="ChangeUser">@this.User.Identity.Name</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                                        </li>*@
+                                }
                                 else
                                 {
                                     <li class="nav-item">
@@ -122,7 +122,6 @@
         </div>
     </header>
     <!-- Header part end-->
-
     <!-- banner part start-->
     <section class="banner_part">
         <div class="container">
@@ -135,11 +134,11 @@
                                 Why Animal Care?
                             </h1>
                             <p>
-                                At Animal Care, your pet's health is our top priority and 
-                                excellent service is our goal. We strive to provide 
-                                the very best in medical care, and our hospitals provide 
-                                a full range of general, surgical and specialized care. 
-                                This is how our Veterinarians would treat their own pets. 
+                                At Animal Care, your pet's health is our top priority and
+                                excellent service is our goal. We strive to provide
+                                the very best in medical care, and our hospitals provide
+                                a full range of general, surgical and specialized care.
+                                This is how our Veterinarians would treat their own pets.
                                 And we offer nothing less than that to you.
                             </p>
                             <a class="btn_2" asp-area="" asp-controller="Vets" asp-action="Index">Vets</a>
@@ -155,8 +154,6 @@
         </div>
     </section>
     <!-- banner part start-->
-
-
     <!-- Footer part start-->
     <footer class="footer-area">
         <div class="copyright_part">
@@ -171,8 +168,6 @@
         </div>
     </footer>
     <!-- Footer part end-->
-
-
     <!-- jquery plugins here-->
 
     <script src="js/jquery-1.12.1.min.js"></script>
@@ -191,6 +186,21 @@
     <script src="js/contact.js"></script>
     <!-- custom js -->
     <script src="js/custom.js"></script>
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function () {
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/616416d586aee40a5735f6fe/1fhnficue';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
+
 </body>
 
 </html>
