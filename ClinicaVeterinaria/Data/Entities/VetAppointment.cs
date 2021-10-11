@@ -19,12 +19,14 @@ namespace ClinicaVeterinaria.Data.Entities
         [Display(Name = "Vet Name")]
         public string VetName { get; set; }
 
+        [Required]
         public int Room { get; set; }
 
+        [Required]
+        [DisplayFormat(DataFormatString ="{0:yyyy/MM/dd hh:mm tt}", ApplyFormatInEditMode = false)]
         public DateTime Date { get; set; }
 
-        public DateTime Hour { get; set; }
+        public string ClientName { get; set; }
 
-        public User User { get; set; }
     }
 }

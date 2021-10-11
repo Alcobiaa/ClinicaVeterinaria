@@ -1,4 +1,5 @@
 ﻿using ClinicaVeterinaria.Data.Entities;
+using ClinicaVeterinaria.Helpers;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -9,10 +10,12 @@ namespace ClinicaVeterinaria.Data
     public class AnimalRepository : GenericRepository<Animal>, IAnimalRepository
     {
         private readonly DataContext _context;
+        private readonly IUserHelper _userHelper;
 
-        public AnimalRepository(DataContext context) : base(context)
+        public AnimalRepository(DataContext context, IUserHelper userHelper) : base(context)
         {
             _context = context;
+            _userHelper = userHelper;
         }
 
         public IQueryable GetAllWithUsers()
@@ -22,7 +25,7 @@ namespace ClinicaVeterinaria.Data
 
         public IEnumerable<SelectListItem> GetComboClients()
         {
-            var list = _context.Clients.Select(c => new SelectListItem
+            var list = _context.UsersClients.Select(c => new SelectListItem
             {
                 Text = c.FirstName + " " + c.LastName,
                 Value = c.Id.ToString()
@@ -37,6 +40,10 @@ namespace ClinicaVeterinaria.Data
             });
 
             return list;
+
+
         }
+
+
     }
 }

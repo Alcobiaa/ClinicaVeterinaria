@@ -1,6 +1,8 @@
 ﻿using ClinicaVeterinaria.Data;
+using ClinicaVeterinaria.Data.Entities;
 using ClinicaVeterinaria.Helpers;
 using ClinicaVeterinaria.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -16,27 +18,35 @@ namespace ClinicaVeterinaria.Controllers
         private readonly IConverterHelper _converterHelper;
         private readonly IBlobHelper _blobHelper;
         private readonly IClientRepository _clientRepository;
+        private readonly DataContext _context;
+        private readonly IUsersClientsRepository _usersClientsRepository;
 
         public AnimalsController(IAnimalRepository animalRepository,
             IUserHelper userHelper,
             IConverterHelper converterHelper,
             IBlobHelper blobHelper,
-            IClientRepository clientRepository)
+            IClientRepository clientRepository,
+            DataContext context,
+            IUsersClientsRepository usersClientsRepository)
         {
             _userHelper = userHelper;
             _animalRepository = animalRepository;
             _converterHelper = converterHelper;
             _blobHelper = blobHelper;
             _clientRepository = clientRepository;
+            _context = context;
+            _usersClientsRepository = usersClientsRepository;
         }
 
         // GET: Animals
+        [Authorize(Roles = "Employee, Client")]
         public IActionResult Index()
         {
             return View(_animalRepository.GetAll().OrderBy(a => a.Name));
         }
 
         // GET: Animals/Details/5
+        [Authorize(Roles = "Employee, Client")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -57,6 +67,7 @@ namespace ClinicaVeterinaria.Controllers
         }
 
         // GET: Animals/Create
+        [Authorize(Roles = "Employee")]
         public IActionResult Create()
         {
             var model = new AnimalViewModel
@@ -72,6 +83,7 @@ namespace ClinicaVeterinaria.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Employee")]
         public async Task<IActionResult> Create(AnimalViewModel model)
         {
             if (ModelState.IsValid)
@@ -83,10 +95,12 @@ namespace ClinicaVeterinaria.Controllers
                     imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "animals");
                 }
 
-                var client = await _clientRepository.GetByIdAsync(model.ClientId);
+                var userClient = await _usersClientsRepository.GetByIdAsync(model.UsersClientsId);
                 var animal = _converterHelper.ToAnimal(model, imageId, true);
 
-                animal.ClientName = client.FirstName + " " + client.LastName;
+                model.ClientName = userClient.FirstName + " " + userClient.LastName;
+                animal.ClientName = userClient.FirstName + " " + userClient.LastName;
+                animal.UsersClientsId = userClient.Id;
 
                 //TODO: Modificar para o user que tiver logado
                 animal.User = await _userHelper.GetUserByEmailAsync("lalobia62@gmail.com");
@@ -97,6 +111,7 @@ namespace ClinicaVeterinaria.Controllers
         }
 
         // GET: Animals/Edit/5
+        [Authorize(Roles = "Employee, Client")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -125,6 +140,7 @@ namespace ClinicaVeterinaria.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Employee, Client")]
         public async Task<IActionResult> Edit(AnimalViewModel model)
         {
             if (ModelState.IsValid)
@@ -162,6 +178,7 @@ namespace ClinicaVeterinaria.Controllers
         }
 
         // GET: Animals/Delete/5
+        [Authorize(Roles = "Employee")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -184,6 +201,7 @@ namespace ClinicaVeterinaria.Controllers
         // POST: Animals/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Employee")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var animal = await _animalRepository.GetByIdAsync(id);

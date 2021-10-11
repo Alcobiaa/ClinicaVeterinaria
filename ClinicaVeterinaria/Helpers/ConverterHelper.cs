@@ -105,8 +105,6 @@ namespace ClinicaVeterinaria.Helpers
                 VetName = model.VetName,
                 Room = model.Room,
                 Date = model.Date,
-                Hour = model.Hour,
-                User = model.User,
             };
         }
 
@@ -121,8 +119,6 @@ namespace ClinicaVeterinaria.Helpers
                 VetName = vetAppointment.VetName,
                 Room = vetAppointment.Room,
                 Date = vetAppointment.Date,
-                Hour = vetAppointment.Hour,
-                User = vetAppointment.User,
             };
         }
     }

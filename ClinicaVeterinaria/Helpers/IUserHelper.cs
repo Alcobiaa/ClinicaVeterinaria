@@ -45,5 +45,7 @@ namespace ClinicaVeterinaria.Helpers
         Task<IdentityRole> GetRoleAsync(string id);
 
         IQueryable<User> GetAll();
+
+        IQueryable<User> GetClients();
     }
 }

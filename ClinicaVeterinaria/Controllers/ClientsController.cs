@@ -1,6 +1,7 @@
 ﻿using ClinicaVeterinaria.Data;
 using ClinicaVeterinaria.Helpers;
 using ClinicaVeterinaria.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,28 +10,33 @@ using System.Threading.Tasks;
 
 namespace ClinicaVeterinaria.Controllers
 {
+    [Authorize(Roles = "Employee")]
     public class ClientsController : Controller
     {
         private readonly IClientRepository _clientRepository;
         private readonly IUserHelper _userHelper;
         private readonly IConverterHelper _converterHelper;
         private readonly IBlobHelper _blobHelper;
+        private readonly IUsersClientsRepository _usersClientsRepository;
 
         public ClientsController(IClientRepository clientRepository,
             IUserHelper userHelper,
             IConverterHelper converterHelper,
-            IBlobHelper blobHelper)
+            IBlobHelper blobHelper,
+            IUsersClientsRepository usersClientsRepository)
         {
             _clientRepository = clientRepository;
             _userHelper = userHelper;
             _converterHelper = converterHelper;
             _blobHelper = blobHelper;
+            _usersClientsRepository = usersClientsRepository;
         }
 
         // GET: Clients
         public IActionResult Index()
         {
-            return View(_clientRepository.GetAll().OrderBy(c => c.FirstName));
+            return View(_userHelper.GetAll().Where(c => c.RoleName == "Client"));
+            //return View(_clientRepository.GetAll().OrderBy(c => c.FirstName));
         }
 
         // GET: Clients/Details/5
@@ -41,7 +47,8 @@ namespace ClinicaVeterinaria.Controllers
                 return new NotFoundViewResult("ClientNotFound");
             }
 
-            var client = await _clientRepository.GetByIdAsync(id.Value);
+            //var client = await _clientRepository.GetByIdAsync(id.Value);
+            var client = await _usersClientsRepository.GetByIdAsync(id.Value);
 
             if (client == null)
             {

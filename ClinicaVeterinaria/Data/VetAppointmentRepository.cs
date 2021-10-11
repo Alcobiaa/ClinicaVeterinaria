@@ -1,24 +1,28 @@
 ﻿using ClinicaVeterinaria.Data.Entities;
+using ClinicaVeterinaria.Helpers;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ClinicaVeterinaria.Data
 {
     public class VetAppointmentRepository : GenericRepository<VetAppointment>, IVetAppointmentRepository
     {
         private readonly DataContext _context;
+        private readonly IUserHelper _userHelper;
 
-        public VetAppointmentRepository(DataContext context) : base(context)
+        public VetAppointmentRepository(DataContext context, IUserHelper userHelper) : base(context)
         {
             _context = context;
+            _userHelper = userHelper;
         }
 
-        public IQueryable GetAllWithUsers()
-        {
-            return _context.VetAppointments.Include(v => v.User);
-        }
+        //public IQueryable GetAllWithUsers()
+        //{
+        //    return _context.VetAppointments.Include(v => v.User);
+        //}
 
         public IEnumerable<SelectListItem> GetComboAnimals()
         {
@@ -57,5 +61,21 @@ namespace ClinicaVeterinaria.Data
 
             return list;
         }
+
+        //public async Task<IQueryable<VetAppointment>> GetVetAppointmentAsync(string userName)
+        //{
+        //    var user = await _userHelper.GetUserByEmailAsync(userName);
+
+        //    if(user == null)
+        //    {
+        //        return null;
+        //    }
+
+
+
+        //    return _context.VetAppointments
+        //           .Where(u => u.User == user)
+        //           .OrderByDescending(o => o.Date);
+        //}
     }
 }

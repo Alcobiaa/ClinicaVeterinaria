@@ -143,5 +143,10 @@ namespace ClinicaVeterinaria.Helpers
 
             return list;
         }
+
+        public IQueryable<User> GetClients()
+        {
+            return _dataContext.Set<User>().Where(v => v.RoleName == "Client");
+        }
     }
 }

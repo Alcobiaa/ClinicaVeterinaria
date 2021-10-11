@@ -13,7 +13,13 @@ namespace ClinicaVeterinaria.Data
         public DbSet<Client> Clients { get; set; }
 
         public DbSet<VetAppointment> VetAppointments { get; set; }
-        
+
+        public DbSet<AppointmentDetail> AppointmentDetails { get; set; }
+
+        public DbSet<AppointmentDetailTemp> AppointmentDetailsTemp { get; set; }
+
+        public DbSet<UsersClients> UsersClients { get; set; }
+
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
 

@@ -27,9 +27,11 @@ namespace ClinicaVeterinaria.Data.Entities
         [Display(Name = "Image")]
         public Guid ImageId { get; set; }
 
-        public int ClientId { get; set; }
+        public int UsersClientsId { get; set; }
 
         public string ClientName { get; set; }
+
+        public string UserID { get; set; }
 
         public User User { get; set; }
 

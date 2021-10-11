@@ -33,6 +33,9 @@ namespace ClinicaVeterinaria.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ClientName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("ImageId")
                         .HasColumnType("uniqueidentifier");
 
@@ -40,26 +43,85 @@ namespace ClinicaVeterinaria.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("OwnerId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Species")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("UserID")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("UsersClientsId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Weight")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Animals");
+                });
+
+            modelBuilder.Entity("ClinicaVeterinaria.Data.Entities.AppointmentDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AnimalId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Room")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("VetId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnimalId");
+
+                    b.HasIndex("VetId");
+
+                    b.ToTable("AppointmentDetails");
+                });
+
+            modelBuilder.Entity("ClinicaVeterinaria.Data.Entities.AppointmentDetailTemp", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AnimalId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Room")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("VetId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnimalId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Animals");
+                    b.HasIndex("VetId");
+
+                    b.ToTable("AppointmentDetailsTemp");
                 });
 
             modelBuilder.Entity("ClinicaVeterinaria.Data.Entities.Client", b =>
@@ -153,6 +215,9 @@ namespace ClinicaVeterinaria.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("RoleName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -174,6 +239,33 @@ namespace ClinicaVeterinaria.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("ClinicaVeterinaria.Data.Entities.UsersClients", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdString")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UsersClients");
                 });
 
             modelBuilder.Entity("ClinicaVeterinaria.Data.Entities.Vet", b =>
@@ -228,17 +320,14 @@ namespace ClinicaVeterinaria.Migrations
                     b.Property<string>("AnimalName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("ClientName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Hour")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Room")
                         .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("VetId")
                         .HasColumnType("int");
@@ -247,8 +336,6 @@ namespace ClinicaVeterinaria.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("VetAppointments");
                 });
@@ -386,19 +473,47 @@ namespace ClinicaVeterinaria.Migrations
 
             modelBuilder.Entity("ClinicaVeterinaria.Data.Entities.Animal", b =>
                 {
-                    b.HasOne("ClinicaVeterinaria.Data.Entities.Client", "Owner")
+                    b.HasOne("ClinicaVeterinaria.Data.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserID");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ClinicaVeterinaria.Data.Entities.AppointmentDetail", b =>
+                {
+                    b.HasOne("ClinicaVeterinaria.Data.Entities.Animal", "Animal")
+                        .WithMany()
+                        .HasForeignKey("AnimalId");
+
+                    b.HasOne("ClinicaVeterinaria.Data.Entities.Vet", "Vet")
+                        .WithMany()
+                        .HasForeignKey("VetId");
+
+                    b.Navigation("Animal");
+
+                    b.Navigation("Vet");
+                });
+
+            modelBuilder.Entity("ClinicaVeterinaria.Data.Entities.AppointmentDetailTemp", b =>
+                {
+                    b.HasOne("ClinicaVeterinaria.Data.Entities.Animal", "Animal")
+                        .WithMany()
+                        .HasForeignKey("AnimalId");
 
                     b.HasOne("ClinicaVeterinaria.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
 
-                    b.Navigation("Owner");
+                    b.HasOne("ClinicaVeterinaria.Data.Entities.Vet", "Vet")
+                        .WithMany()
+                        .HasForeignKey("VetId");
+
+                    b.Navigation("Animal");
 
                     b.Navigation("User");
+
+                    b.Navigation("Vet");
                 });
 
             modelBuilder.Entity("ClinicaVeterinaria.Data.Entities.Client", b =>
@@ -411,15 +526,6 @@ namespace ClinicaVeterinaria.Migrations
                 });
 
             modelBuilder.Entity("ClinicaVeterinaria.Data.Entities.Vet", b =>
-                {
-                    b.HasOne("ClinicaVeterinaria.Data.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ClinicaVeterinaria.Data.Entities.VetAppointment", b =>
                 {
                     b.HasOne("ClinicaVeterinaria.Data.Entities.User", "User")
                         .WithMany()

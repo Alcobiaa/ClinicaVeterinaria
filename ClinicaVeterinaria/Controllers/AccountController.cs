@@ -1,4 +1,5 @@
-﻿using ClinicaVeterinaria.Data.Entities;
+﻿using ClinicaVeterinaria.Data;
+using ClinicaVeterinaria.Data.Entities;
 using ClinicaVeterinaria.Helpers;
 using ClinicaVeterinaria.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -21,16 +22,22 @@ namespace ClinicaVeterinaria.Controllers
         private readonly IConfiguration _configuration;
         private readonly IMailHelper _mailHelper;
         private readonly IBlobHelper _blobHelper;
+        private readonly IUsersClientsRepository _usersClientsRepository;
+        private readonly DataContext _context;
 
         public AccountController(IUserHelper userHelper,
             IConfiguration configuration,
             IMailHelper mailHelper,
-            IBlobHelper blobHelper)
+            IBlobHelper blobHelper,
+            IUsersClientsRepository usersClientsRepository,
+            DataContext context)
         {
             _userHelper = userHelper;
             _configuration = configuration;
             _mailHelper = mailHelper;
             _blobHelper = blobHelper;
+            _usersClientsRepository = usersClientsRepository;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -104,11 +111,12 @@ namespace ClinicaVeterinaria.Controllers
                         FirstName = model.FirstName,
                         LastName = model.LastName,
                         Email = model.Username,
-                        UserName = model.Username
+                        UserName = model.Username,
+                        RoleName = role.Name
                     };
 
                     var result = await _userHelper.AddUserAsync(user, model.Password);
-
+                   
                     if (result != IdentityResult.Success)
                     {
                         ModelState.AddModelError(string.Empty, "The user couldn´t be created.");
@@ -124,6 +132,19 @@ namespace ClinicaVeterinaria.Controllers
                         await _userHelper.AddUserToRoleAsync(user, role.ToString());
                     }
 
+                    if (role.Name == "Client")
+                    {
+                        var userClient = new UsersClients
+                        {
+                            FirstName = user.FirstName,
+                            LastName = user.LastName,
+                            Email = model.Username,
+                            RoleName = role.Name
+                        };
+
+                        var result2 = _usersClientsRepository.CreateAsync(userClient);
+                    }
+
                     string myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
 
                     var tokenLink = Url.Action("ConfirmationEmail", "Account", new
@@ -135,6 +156,7 @@ namespace ClinicaVeterinaria.Controllers
                     Response response = _mailHelper.SendEmail(model.Username, "Email confirmation", $"<h1>Email Confirmation</h1>" +
                        $"To allow the user, " +
                        $"plase click in this link to change your Password:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
+
 
                     if (response.IsSuccess)
                     {
@@ -150,6 +172,7 @@ namespace ClinicaVeterinaria.Controllers
         }
 
 
+        [Authorize(Roles = "Admin, Employee, Client")]
         public async Task<IActionResult> ChangeUser()
         {
             var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
@@ -160,12 +183,14 @@ namespace ClinicaVeterinaria.Controllers
             {
                 model.FirstName = user.FirstName;
                 model.LastName = user.LastName;
+                model.ImageId = user.ImageId;
             }
 
             return View(model);
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin, Employee, Client")]
         public async Task<IActionResult> ChangeUser(ChangeUserViewModel model)
         {
             if (ModelState.IsValid)
@@ -183,6 +208,7 @@ namespace ClinicaVeterinaria.Controllers
 
                     model.ImageId = imageId;
 
+                    
                     user.FirstName = model.FirstName;
                     user.LastName = model.LastName;
                     user.ImageId = model.ImageId;
@@ -203,13 +229,15 @@ namespace ClinicaVeterinaria.Controllers
             return View(model);
         }
 
-
+        
+        [Authorize(Roles = "Admin, Employee, Client")]
         public IActionResult ChangePassword()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin, Employee, Client")]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
             if (ModelState.IsValid)
@@ -285,7 +313,6 @@ namespace ClinicaVeterinaria.Controllers
         {
             return View();
         }
-
 
         [HttpPost]
         public async Task<IActionResult> RecoverPassword(RecoverPasswordViewModel model)
@@ -409,7 +436,25 @@ namespace ClinicaVeterinaria.Controllers
         public IActionResult NotAuthorized()
         {
             return View();
-        } 
+        }
+
+        // GET: Clients/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return new NotFoundViewResult("ClientNotFound");
+            }
+
+            var client = await _usersClientsRepository.GetByIdAsync(id.Value);
+
+            if (client == null)
+            {
+                return new NotFoundViewResult("ClientNotFound");
+            }
+
+            return View(client);
+        }
 
     }
 }

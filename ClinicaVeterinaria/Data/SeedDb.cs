@@ -1,9 +1,9 @@
 ﻿using ClinicaVeterinaria.Data.Entities;
 using ClinicaVeterinaria.Helpers;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ClinicaVeterinaria.Data
@@ -14,7 +14,7 @@ namespace ClinicaVeterinaria.Data
         private readonly IUserHelper _userHelper;
         private Random _random;
 
-        public SeedDb(DataContext context, 
+        public SeedDb(DataContext context,
             IUserHelper userHelper)
         {
             _context = context;
@@ -25,7 +25,7 @@ namespace ClinicaVeterinaria.Data
         public async Task SeedAsync()
         {
             // Verifica se já existe base de dados, caso nao exista cria
-            await _context.Database.EnsureCreatedAsync();
+            await _context.Database.MigrateAsync();
 
             await _userHelper.CheckRoleAsync("Admin");
             await _userHelper.CheckRoleAsync("Client");
@@ -41,6 +41,7 @@ namespace ClinicaVeterinaria.Data
                     LastName = "Alcobia",
                     Email = "lalobia62@gmail.com",
                     UserName = "lalobia62@gmail.com",
+                    RoleName = "Admin"
                 };
 
                 var result = await _userHelper.AddUserAsync(user, "123456");

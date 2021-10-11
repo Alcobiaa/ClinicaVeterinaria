@@ -17,6 +17,10 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="MimeKit" Version="2.15.0" />
+    <PackageReference Include="Syncfusion.Blazor" Version="19.3.0.44" />
+    <PackageReference Include="Syncfusion.EJ" Version="19.3.0.44" />
+    <PackageReference Include="Syncfusion.EJ.AspNet.Core" Version="19.3.0.44" />
+    <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="19.3.0.44" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
     <PackageReference Include="Twilio" Version="5.65.2" />
     <PackageReference Include="Twilio.AspNet.Core" Version="5.37.2" />

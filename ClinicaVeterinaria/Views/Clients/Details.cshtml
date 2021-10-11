@@ -1,4 +1,4 @@
-﻿@model ClinicaVeterinaria.Data.Entities.Client
+﻿@model ClinicaVeterinaria.Data.Entities.User
 
 @{
     ViewData["Title"] = "Details";
@@ -23,12 +23,6 @@
                     </dt>
                     <dd class="col-sm-9">
                         @Html.DisplayFor(model => model.LastName)
-                    </dd>
-                    <dt class="col-sm-3">
-                        @Html.DisplayNameFor(model => model.PhoneNumber)
-                    </dt>
-                    <dd class="col-sm-9">
-                        @Html.DisplayFor(model => model.PhoneNumber)
                     </dd>
                     <dt class="col-sm-3">
                         @Html.DisplayNameFor(model => model.Email)

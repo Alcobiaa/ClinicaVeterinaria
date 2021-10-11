@@ -1,6 +1,7 @@
 ﻿using ClinicaVeterinaria.Data;
 using ClinicaVeterinaria.Helpers;
 using ClinicaVeterinaria.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -35,6 +36,7 @@ namespace ClinicaVeterinaria.Controllers
         }
 
         // GET: Vets/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -53,6 +55,7 @@ namespace ClinicaVeterinaria.Controllers
         }
 
         // GET: Vets/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -63,6 +66,7 @@ namespace ClinicaVeterinaria.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(VetViewModel model)
         {
             if (ModelState.IsValid)
@@ -85,6 +89,7 @@ namespace ClinicaVeterinaria.Controllers
         }
 
         // GET: Vets/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -109,6 +114,7 @@ namespace ClinicaVeterinaria.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(VetViewModel model)
         {
             if (ModelState.IsValid)
@@ -145,6 +151,7 @@ namespace ClinicaVeterinaria.Controllers
         }
 
         // GET: Vets/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

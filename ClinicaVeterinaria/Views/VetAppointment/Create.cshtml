@@ -12,7 +12,7 @@
         <div class="col-md-4">
             <form asp-action="Create" method="post">
                 <div asp-validation-summary="ModelOnly"></div>
-                
+
                 <div class="form-group">
                     <label asp-for="AnimalId"></label>
                     <br />
@@ -24,7 +24,7 @@
                 <div class="form-group">
                     <label asp-for="VetId"></label>
                     <br />
-                    <select asp-for="VetId" asp-items="Model.Vets" class="form-control" ></select>
+                    <select class="control-wrapper" asp-for="VetId" asp-items="Model.Vets"></select>
                 </div>
 
                 <br />
@@ -32,12 +32,12 @@
                 <div class="form-group">
                     <label asp-for="Room" class="control-label"></label>
                     <select asp-for="Room" class="form-control">
-                        <option selected="selected">(Select a Room...)</option>
                         <option selected="selected">1</option>
                         <option selected="selected">2</option>
                         <option selected="selected">3</option>
                         <option selected="selected">4</option>
                         <option selected="selected">5</option>
+                        <option selected="selected">(Select a Room...)</option>
                     </select>
                     <span asp-validation-for="Room" class="text-danger"></span>
                 </div>
@@ -46,16 +46,20 @@
                 <br />
                 <div class="form-group">
                     <label asp-for="Date" class="control-label"></label>
-                    <input asp-for="Date" class="form-control" />
+                    <input id="element" asp-for="Date"  />
                     <span asp-validation-for="Date" class="text-danger"></span>
+
+                    @*<label asp-for="Date" class="control-label"></label>
+                        <input asp-for="Date" class="form-control" />
+                        <span asp-validation-for="Date" class="text-danger"></span>*@
                 </div>
 
-                <div class="form-group">
-                    <label asp-for="Hour" class="control-label"></label>
-                    <input asp-for="Hour" class="form-control" />
-                    <span asp-validation-for="Hour" class="text-danger"></span>
-                </div>
-                <br />
+                @*<div class="form-group">
+                        <label asp-for="Hour" class="control-label"></label>
+                        <input id="timepicker" asp-for="Hour" />
+                        <span asp-validation-for="Hour" class="text-danger"></span>
+                    </div>*@
+
                 <br />
                 <div class="form-group">
                     <button type="submit" value="Create" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Create</button>
@@ -66,7 +70,19 @@
     </div>
 </div>
 
+
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        <script>
+            var datetimepicker = new ej.calendars.DateTimePicker({
+                placeholder: 'Choose a date',
+                value: new Date(),
+                // sets the format.
+                format: 'yyyy-MM-dd hh:mm'
+            });
+
+            datetimepicker.appendTo('#element');
+        </script>
+    }
 }
 

@@ -17,13 +17,16 @@ namespace ClinicaVeterinaria.Controllers
         private readonly IBlobHelper _blobHelper;
         private readonly IVetRepository _vetRepository;
         private readonly IAnimalRepository _animalRepository;
+        private readonly DataContext _context;
 
         public VetAppointmentController(IVetAppointmentRepository vetAppointment,
             IUserHelper userHelper,
             IConverterHelper converterHelper,
             IBlobHelper blobHelper,
             IVetRepository vetRepository,
-            IAnimalRepository animalRepository)
+            IAnimalRepository animalRepository,
+            DataContext context)
+
         {
             _vetAppointment = vetAppointment;
             _userHelper = userHelper;
@@ -31,14 +34,35 @@ namespace ClinicaVeterinaria.Controllers
             _blobHelper = blobHelper;
             _vetRepository = vetRepository;
             _animalRepository = animalRepository;
+            _context = context;
         }
 
 
         // GET: VetAppointmentController
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View(_vetAppointment.GetAll().OrderBy(v => v.Id));
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+
+            //var haveVetAppointments = _context.VetAppointments.FromSqlRaw($"SELECT * FROM dbo.VetAppointments WHERE UserId = {user.Id}").ToList();
+
+            if (user.RoleName == "Employee")
+            {
+                return View(_vetAppointment.GetAll().OrderBy(v => v.Id));
+            }
+
+            if(user.RoleName == "Client")
+            {
+                return View(_context.VetAppointments.Where(v => v.ClientName == user.FirstName + " " + user.LastName));
+            }
+
+            return View();
         }
+
+        public ActionResult NoVetAppointments()
+        {
+            return View();
+        } 
+
 
         // GET: VetAppointmentController/Details/5
         public async Task<ActionResult> Details(int? id)
@@ -75,14 +99,17 @@ namespace ClinicaVeterinaria.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(VetAppointmentViewModel model)
         {
+            var vet = await _vetRepository.GetByIdAsync(model.VetId);
+            var animal = await _animalRepository.GetByIdAsync(model.AnimalId);
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+
+            model.VetName = vet.FirstName + " " + vet.LastName;
+            model.AnimalName = animal.Name;
+            model.ClientName = animal.ClientName;
+
             if (ModelState.IsValid)
             {
-                var vet = await _vetRepository.GetByIdAsync(model.VetId);
-                var animal = await _animalRepository.GetByIdAsync(model.AnimalId);
-
-                model.VetName = vet.FirstName + " " + vet.LastName;
-                model.AnimalName = animal.Name;
-
+                //model.UserId = user.User
                 await _vetAppointment.CreateAsync(model);
                 return RedirectToAction(nameof(Index));
             }
@@ -118,15 +145,18 @@ namespace ClinicaVeterinaria.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(VetAppointmentViewModel model)
         {
+            var vet = await _vetRepository.GetByIdAsync(model.VetId);
+            var animal = await _animalRepository.GetByIdAsync(model.AnimalId);
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+
+            model.VetName = vet.FirstName + " " + vet.LastName;
+            model.AnimalName = animal.Name;
+            model.ClientName = animal.ClientName;
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var vet = await _vetRepository.GetByIdAsync(model.VetId);
-                    var animal = await _animalRepository.GetByIdAsync(model.AnimalId);
-
-                    model.VetName = vet.FirstName + " " + vet.LastName;
-                    model.AnimalName = animal.Name;
 
                     var vetAppointment = _converterHelper.ToVetAppointment(model, false);
 

@@ -23,8 +23,6 @@
                     <h5 class="card-title">@Html.DisplayFor(modelItem => item.FirstName)  @Html.DisplayFor(modelItem => item.LastName)</h5>
                     <br />
                     <p class="card-text"></p>
-                    @*<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning"><i class="fas fa-user-edit"></i>Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info"><i class="fas fa-info-circle"></i>Details</a>*@
                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger"><i class="fas fa-user-minus"></i>Delete</a>
                 </div>
             </div>

@@ -16,10 +16,10 @@
 
                 <div class="form-group">
                     <label asp-for="AnimalId"></label>
-                    <select asp-for="AnimalId" asp-items="Model.Animals" class="form-control" ></select>
+                    <select asp-for="AnimalId" asp-items="Model.Animals" class="form-control"></select>
                     @*<span asp-validation-for="Animal" class="text-danger"></span>*@
                 </div>
-               
+
                 <br />
                 <br />
                 <div class="form-group">
@@ -38,14 +38,8 @@
 
                 <div class="form-group">
                     <label asp-for="Date" class="control-label"></label>
-                    <input asp-for="Date" class="form-control" />
+                    <input id="element" asp-for="Date" />
                     <span asp-validation-for="Date" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="Hour" class="control-label"></label>
-                    <input asp-for="Hour" class="form-control" />
-                    <span asp-validation-for="Hour" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
@@ -58,6 +52,17 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        <script>
+            var datetimepicker = new ej.calendars.DateTimePicker({
+                placeholder: 'Choose a date',
+                value: new Date(),
+                // sets the format.
+                format: 'yyyy-MM-dd hh:mm'
+            });
+
+            datetimepicker.appendTo('#element');
+        </script>
+    }
 }
 
