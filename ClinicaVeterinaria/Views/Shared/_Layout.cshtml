@@ -105,6 +105,7 @@
                                             {
                                                 <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="ChangeUser">User Settings</a></li>
                                                 <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a></li>
+
                                             }
                                         </ul>
                                     </li>
@@ -189,8 +190,8 @@
     </script>
     <!--End of Tawk.to Script-->
 
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
+        @await RenderSectionAsync("Scripts", required: false)
+    </body>
 
 
-</html>
+    </html>

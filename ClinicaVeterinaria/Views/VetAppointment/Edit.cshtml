@@ -32,10 +32,19 @@
                 <br />
                 <div class="form-group">
                     <label asp-for="Room" class="control-label"></label>
-                    <input asp-for="Room" class="form-control" />
+                    <select asp-for="Room" class="form-control">
+                        <option selected="selected">1</option>
+                        <option selected="selected">2</option>
+                        <option selected="selected">3</option>
+                        <option selected="selected">4</option>
+                        <option selected="selected">5</option>
+                        <option selected="selected">(Select a Room...)</option>
+                    </select>
                     <span asp-validation-for="Room" class="text-danger"></span>
                 </div>
 
+                <br />
+                <br />
                 <div class="form-group">
                     <label asp-for="Date" class="control-label"></label>
                     <input id="element" asp-for="Date" />
@@ -45,6 +54,12 @@
                 <div class="form-group">
                     <button type="submit" value="Save" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
                     <a asp-action="Index" class="btn btn-success"><i class="fas fa-backward"></i> Back to List</a>
+                </div>
+
+                <div class="text-success">
+                    <p>
+                        @ViewBag.Message
+                    </p>
                 </div>
             </form>
         </div>

@@ -10,12 +10,14 @@ namespace ClinicaVeterinaria.Data.Entities
         [Display(Name = "Animal Name")]
         public int AnimalId { get; set; }
 
+        [Required]
         [Display(Name = "Animal Name")]
         public string AnimalName { get; set; }
 
         [Display(Name = "Vet Name")]
         public int VetId { get; set; }
 
+        [Required]
         [Display(Name = "Vet Name")]
         public string VetName { get; set; }
 
@@ -27,6 +29,5 @@ namespace ClinicaVeterinaria.Data.Entities
         public DateTime Date { get; set; }
 
         public string ClientName { get; set; }
-
     }
 }

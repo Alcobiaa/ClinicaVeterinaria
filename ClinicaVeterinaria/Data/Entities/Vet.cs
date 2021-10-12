@@ -40,7 +40,7 @@ namespace ClinicaVeterinaria.Data.Entities
         //public string FullName => $"{FirstName} {LastName}"
 
         public string ImageFullPath => ImageId == Guid.Empty
-            ? $"https://clinicaveterinariacet57.azurewebsites.net/images/noimage.png"
-            : $"https://clinicaveterinaria.blob.core.windows.net/vets/{ImageId}";
+            ? $"https://clinicaveterinariatpsi.azurewebsites.net/images/noimage.png"
+            : $"https://clinicaveterinariatpsi.blob.core.windows.net/vets/{ImageId}";
     }
 }

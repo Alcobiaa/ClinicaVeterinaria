@@ -23,7 +23,7 @@
                 @*<img src="@Url.Content(item.ImageUrl)" class="card-img-top" alt="Vet">*@
                 <div class="card-body">
                     <h5 class="card-title"><b>Nome:</b> @Html.DisplayFor(modelItem => item.FirstName)  @Html.DisplayFor(modelItem => item.LastName)</h5>
-                    <h5 class="card-text"><b>E-mail:</b> @Html.DisplayFor(modelItem => item.Email)</h5>
+                    <h6 class="card-text"><b>E-mail:</b> @Html.DisplayFor(modelItem => item.Email)</h6>
                     <br />
                     <p class="card-text"></p>
                     @*<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning"><i class="fas fa-user-edit"></i>Edit</a>*@

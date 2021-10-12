@@ -1,4 +1,5 @@
 ﻿using ClinicaVeterinaria.Data;
+using ClinicaVeterinaria.Data.Entities;
 using ClinicaVeterinaria.Helpers;
 using ClinicaVeterinaria.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -103,31 +104,103 @@ namespace ClinicaVeterinaria.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(VetAppointmentViewModel model)
         {
-            var vet = await _vetRepository.GetByIdAsync(model.VetId);
-            var animal = await _animalRepository.GetByIdAsync(model.AnimalId);
-            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
-
-            model.VetName = vet.FirstName + " " + vet.LastName;
-            model.AnimalName = animal.Name;
-            model.ClientName = animal.ClientName;
-
-            var model2 = new HistoryViewModel
+            try
             {
-                VetName = vet.FirstName + " " + vet.LastName,
-                AnimalName = animal.Name,
-                ClientName = animal.ClientName,
-                Room = model.Room,
-                AnimalId = model.AnimalId,
-                VetId = model.VetId,
-                Date = model.Date,
-            };
+                var vet = await _vetRepository.GetByIdAsync(model.VetId);
+                var animal = await _animalRepository.GetByIdAsync(model.AnimalId);
+                var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
 
-            if (ModelState.IsValid)
+                if(vet == null && animal == null)
+                {
+                    ViewBag.Message = "Yoou have to select a option !";
+                }
+                else
+                {
+                    model.VetName = vet.FirstName + " " + vet.LastName;
+                    model.AnimalName = animal.Name;
+                    model.ClientName = animal.ClientName;
+
+                    var model2 = new HistoryViewModel
+                    {
+                        VetName = vet.FirstName + " " + vet.LastName,
+                        AnimalName = animal.Name,
+                        ClientName = animal.ClientName,
+                        Room = model.Room,
+                        AnimalId = model.AnimalId,
+                        VetId = model.VetId,
+                        Date = model.Date,
+                    };
+
+                    bool verifica = false;
+
+                    foreach (VetAppointment appointment in _vetAppointment.GetAll())
+                    {
+                        if (model.VetName == appointment.VetName && model.Date == appointment.Date)
+                        {
+                            ViewBag.Message = "You cannot make this appointment, choose a different date or another Animal";
+                            verifica = true;
+                        }
+                        else if(model.AnimalName == appointment.AnimalName && model.Date == appointment.Date)
+                        {
+                            ViewBag.Message = "You cannot make this appointment, choose a different date or another Animal";
+                            verifica = true;
+                        }
+                        else if(model.Date == appointment.Date && model.Room == appointment.Room)
+                        {
+                            ViewBag.Message = "You cannot make this appointment, choose a different Room";
+                            verifica = true;
+                        }
+                    }
+
+
+                    if(verifica == false)
+                    {
+                        //model.UserId = user.User
+                        await _vetAppointment.CreateAsync(model);
+                        await _historyRepository.CreateAsync(model2);
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        model.Animals = _vetAppointment.GetComboAnimals();
+                        model.Vets = _vetAppointment.GetComboVets();
+                    }
+
+                    //if (ModelState.IsValid)
+                    //{
+                    //    //model.UserId = user.User
+                    //    await _vetAppointment.CreateAsync(model);
+                    //    await _historyRepository.CreateAsync(model2);
+                    //    return RedirectToAction(nameof(Index));
+                    //}
+                }
+
+                //model.VetName = vet.FirstName + " " + vet.LastName;
+                //model.AnimalName = animal.Name;
+                //model.ClientName = animal.ClientName;
+
+                //var model2 = new HistoryViewModel
+                //{
+                //    VetName = vet.FirstName + " " + vet.LastName,
+                //    AnimalName = animal.Name,
+                //    ClientName = animal.ClientName,
+                //    Room = model.Room,
+                //    AnimalId = model.AnimalId,
+                //    VetId = model.VetId,
+                //    Date = model.Date,
+                //};
+
+                //if (ModelState.IsValid)
+                //{
+                //    //model.UserId = user.User
+                //    await _vetAppointment.CreateAsync(model);
+                //    await _historyRepository.CreateAsync(model2);
+                //    return RedirectToAction(nameof(Index));
+                //}
+            }
+            catch (System.Exception)
             {
-                //model.UserId = user.User
-                await _vetAppointment.CreateAsync(model);
-                await _historyRepository.CreateAsync(model2);
-                return RedirectToAction(nameof(Index));
+                ViewBag.Message = "Tem que selecionar alguma informação";
             }
 
             return View(model);
@@ -169,34 +242,60 @@ namespace ClinicaVeterinaria.Controllers
             model.AnimalName = animal.Name;
             model.ClientName = animal.ClientName;
 
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
+                bool verifica = false;
 
+                foreach (VetAppointment appointment in _vetAppointment.GetAll())
+                {
+                    if (model.VetName == appointment.VetName && model.Date == appointment.Date)
+                    {
+                        ViewBag.Message = "You cannot make this appointment, choose a different date or another Animal";
+                        verifica = true;
+                    }
+                    else if (model.AnimalName == appointment.AnimalName && model.Date == appointment.Date)
+                    {
+                        ViewBag.Message = "You cannot make this appointment, choose a different date or another Animal";
+                        verifica = true;
+                    }
+                    else if (model.Date == appointment.Date && model.Room == appointment.Room)
+                    {
+                        ViewBag.Message = "You cannot make this appointment, choose a different Room";
+                        verifica = true;
+                    }
+                }
+
+                if (verifica == false)
+                {
                     var vetAppointment = _converterHelper.ToVetAppointment(model, false);
 
                     await _vetAppointment.UpdateAsync(vetAppointment);
                     return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!await _vetAppointment.ExistAsync(model.Id))
-                    {
-                        return new NotFoundViewResult("VetAppointmentNotFound");
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    model.Animals = _vetAppointment.GetComboAnimals();
+                    model.Vets = _vetAppointment.GetComboVets();
                 }
-
-                return RedirectToAction(nameof(Index));
             }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await _vetAppointment.ExistAsync(model.Id))
+                {
+                    return new NotFoundViewResult("VetAppointmentNotFound");
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
             return View(model);
         }
 
+
         // GET: VetAppointmentController/Delete/5
+        [Authorize(Roles = "Employee")]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -217,6 +316,7 @@ namespace ClinicaVeterinaria.Controllers
         // POST: VetAppointmentController/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Employee")]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             var vetAppointment = await _vetAppointment.GetByIdAsync(id);

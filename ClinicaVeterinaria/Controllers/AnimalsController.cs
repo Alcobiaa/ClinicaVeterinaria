@@ -210,8 +210,22 @@ namespace ClinicaVeterinaria.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var animal = await _animalRepository.GetByIdAsync(id);
-            await _animalRepository.DeleteAsync(animal);
-            return RedirectToAction(nameof(Index));
+
+            try
+            {
+                await _animalRepository.DeleteAsync(animal);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException != null && ex.InnerException.Message.Contains("DELETE"))
+                {
+                    ViewBag.ErrorTitle = $"{animal.Name} probaly have an appointment";
+                    ViewBag.ErrorMessage = $"{animal.Name} cannot be deleted";
+                }
+
+                return View("Error");
+            }
         }
 
         public IActionResult AnimalNotFound()

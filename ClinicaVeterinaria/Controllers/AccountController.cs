@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -163,6 +164,7 @@ namespace ClinicaVeterinaria.Controllers
                         token = myToken
                     }, protocol: HttpContext.Request.Scheme);
 
+                    
                     Response response = _mailHelper.SendEmail(model.Username, "Email confirmation", $"<h1>Email Confirmation</h1>" +
                        $"To allow the user, " +
                        $"plase click in this link to change your Password:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
@@ -223,7 +225,7 @@ namespace ClinicaVeterinaria.Controllers
                     user.FirstName = model.FirstName;
                     user.LastName = model.LastName;
                     user.ImageId = model.ImageId;
-
+                    
                     var response = await _userHelper.UpdateUserAsync(user);
 
                     if(response.Succeeded)

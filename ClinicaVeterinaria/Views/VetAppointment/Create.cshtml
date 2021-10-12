@@ -46,7 +46,7 @@
                 <br />
                 <div class="form-group">
                     <label asp-for="Date" class="control-label"></label>
-                    <input id="element" asp-for="Date"  />
+                    <input id="element" asp-for="Date" />
                     <span asp-validation-for="Date" class="text-danger"></span>
 
                     @*<label asp-for="Date" class="control-label"></label>
@@ -64,6 +64,13 @@
                 <div class="form-group">
                     <button type="submit" value="Create" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Create</button>
                     <a asp-action="Index" class="btn btn-success"><i class="fas fa-backward"></i> Back to List</a>
+                </div>
+
+
+                <div class="text-success">
+                    <p>
+                        @ViewBag.Message
+                    </p>
                 </div>
             </form>
         </div>
